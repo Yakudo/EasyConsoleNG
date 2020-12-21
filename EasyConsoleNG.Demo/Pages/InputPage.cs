@@ -1,7 +1,7 @@
 ﻿using EasyConsole;
 using System;
 
-namespace Demo.Pages
+namespace EasyConsoleNG.Demo.Pages
 {
     class InputPage : Page
     {

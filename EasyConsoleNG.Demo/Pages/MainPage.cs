@@ -1,6 +1,6 @@
 ﻿using EasyConsole;
 
-namespace Demo.Pages
+namespace EasyConsoleNG.Demo.Pages
 {
     class MainPage : MenuPage
     {

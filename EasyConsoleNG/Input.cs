@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace EasyConsole
+namespace EasyConsoleNG
 {
     public static class Input
     {

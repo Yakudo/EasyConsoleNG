@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 
-namespace EasyConsole
+namespace EasyConsoleNG
 {
     public abstract class Program
     {
