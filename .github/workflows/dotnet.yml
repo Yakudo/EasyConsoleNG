@@ -1,0 +1,26 @@
+name: .NET
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    env:
+      DOTNET_NOLOGO: true
+      DOTNET_CLI_TELEMETRY_OPTOUT: true
+    steps:
+    - uses: actions/checkout@v2
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: 2.2.103
+    - name: Restore dependencies
+      run: dotnet restore EasyConsoleNG.sln
+    - name: Build
+      run: dotnet build --no-restore EasyConsoleNG.sln
+    - name: Test
+      run: dotnet test --no-build --verbosity normal EasyConsoleNG.sln
