@@ -1,4 +1,6 @@
-﻿namespace EasyConsoleNG.Demo.Pages
+﻿using System;
+
+namespace EasyConsoleNG.Demo.Pages
 {
     internal class InputPage : Page
     {
@@ -11,7 +13,7 @@
         {
             base.Display();
 
-            Fruit input = Input.ReadEnum<Fruit>("Select a fruit");
+            var input = Input.ReadEnum<Fruit>("Select a fruit");
             Output.WriteLine(ConsoleColor.Green, "You selected {0}", input);
 
             Input.ReadString("Press [Enter] to navigate home");
