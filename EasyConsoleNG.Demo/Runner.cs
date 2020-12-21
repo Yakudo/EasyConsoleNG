@@ -1,8 +1,8 @@
 ﻿namespace EasyConsoleNG.Demo
 {
-    class Runner
+    internal class Runner
     {
-        static void Main(string[] args)
+        private static void Main(string[] args)
         {
             new DemoProgram().Run();
         }

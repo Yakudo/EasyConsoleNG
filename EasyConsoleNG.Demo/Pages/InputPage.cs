@@ -1,9 +1,6 @@
-﻿using EasyConsole;
-using System;
-
-namespace EasyConsoleNG.Demo.Pages
+﻿namespace EasyConsoleNG.Demo.Pages
 {
-    class InputPage : Page
+    internal class InputPage : Page
     {
         public InputPage(Program program)
             : base("Input", program)
@@ -22,7 +19,7 @@ namespace EasyConsoleNG.Demo.Pages
         }
     }
 
-    enum Fruit
+    internal enum Fruit
     {
         Apple,
         Banana,

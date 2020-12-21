@@ -1,8 +1,6 @@
-﻿using EasyConsole;
-
-namespace EasyConsoleNG.Demo.Pages
+﻿namespace EasyConsoleNG.Demo.Pages
 {
-    class Page1Ai : Page
+    internal class Page1Ai : Page
     {
         public Page1Ai(Program program)
             : base("Page 1Ai", program)

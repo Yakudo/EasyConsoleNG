@@ -1,9 +1,8 @@
 ﻿using EasyConsoleNG.Demo.Pages;
-using EasyConsole;
 
 namespace EasyConsoleNG.Demo
 {
-    class DemoProgram : Program
+    internal class DemoProgram : Program
     {
         public DemoProgram()
             : base("EasyConsole Demo", breadcrumbHeader: true)

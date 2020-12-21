@@ -1,8 +1,6 @@
-﻿using EasyConsole;
-
-namespace EasyConsoleNG.Demo.Pages
+﻿namespace EasyConsoleNG.Demo.Pages
 {
-    class Page1 : MenuPage
+    internal class Page1 : MenuPage
     {
         public Page1(Program program)
             : base("Page 1", program,

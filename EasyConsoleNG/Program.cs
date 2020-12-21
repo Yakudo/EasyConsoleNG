@@ -56,7 +56,7 @@ namespace EasyConsoleNG
 
         public void AddPage(Page page)
         {
-            Type pageType = page.GetType();
+            var pageType = page.GetType();
 
             if (Pages.ContainsKey(pageType))
                 Pages[pageType] = page;
@@ -75,7 +75,7 @@ namespace EasyConsoleNG
 
         public T SetPage<T>() where T : Page
         {
-            Type pageType = typeof(T);
+            var pageType = typeof(T);
 
             if (CurrentPage != null && CurrentPage.GetType() == pageType)
                 return CurrentPage as T;
@@ -83,8 +83,7 @@ namespace EasyConsoleNG
             // leave the current page
 
             // select the new page
-            Page nextPage;
-            if (!Pages.TryGetValue(pageType, out nextPage))
+            if (!Pages.TryGetValue(pageType, out var nextPage))
                 throw new KeyNotFoundException("The given page \"{0}\" was not present in the program".Format(pageType));
 
             // enter the new page
