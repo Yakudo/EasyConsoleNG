@@ -1,9 +1,13 @@
-# EasyConsole [![NuGet](https://img.shields.io/nuget/v/EasyConsole.svg)](https://www.nuget.org/packages/EasyConsole/)
-EasyConsole is a library to make it easier for developers to build a simple menu interface for a .NET console application.
+# EasyConsoleNG [![NuGet](https://img.shields.io/nuget/v/EasyConsole.svg)](https://www.nuget.org/packages/EasyConsole/)1
+
+EasyConsoleNG is a fork of [EasyConsole](https://github.com/splttingatms/EasyConsole) - a library to make it easier for developers to build a simple menu interface for a .NET console application. 
+
+EasyConsoleNG stands for EasyConsole Next Generation. It adds several modern-era improvements such as support for async or .NET Standard. As of 2020 the original EasyConsole project is basically dead and not maintained any more, so the fork was necessary to keep the project alive.
+
+### Features
 
 ![Program Demo](https://i.imgur.com/Hlc2QoI.gif)
 
-###Features
 * Automatically numbered menus
 * Fluent creation of menus
 * Input/Output helpers
@@ -18,7 +22,7 @@ var menu = new EasyConsole.Menu()
       .Add("bar", () => Console.WriteLine("bar selected"));
 menu.Display();
 ```
-![Menu Demo](http://i.imgur.com/GXeYOm0.png)
+![Menu Demo](Docs/Images/menu_demo.gif)
 
 ### Utilities - Input/Output
 EasyConsole also provides input and output utilities to abstract the concept of dealing with the Console.
@@ -30,7 +34,7 @@ Output.WriteLine(ConsoleColor.Red, "red");
 Output.WriteLine(ConsoleColor.Green, "green");
 Output.WriteLine(ConsoleColor.Blue, "blue");
 ```
-![Output Utility Demo](http://i.imgur.com/tfeS18X.png)
+![Output Utility Demo](Docs/Images/input_utility_demo.png)
 
 The `Input` class adds helper methods that prompt the user for input. The utility takes care of displaying prompt text and handling parsing logic. For example, non-numeric input will be rejected by `ReadInt()` and the user will be re-prompted.
 ```c#
@@ -40,7 +44,7 @@ Output.WriteLine("You wrote: {0}", input);
 input = Input.ReadInt("Please enter an integer (between 1 and 10):", min: 1, max: 10);
 Output.WriteLine("You wrote: {0}", input);
 ```
-![Input Utility Demo](http://i.imgur.com/NLIr0mY.png)
+![Input Utility Demo](Docs/Images/output_utility_demo.png)
 
 ### Program
 All of these features can be put together to create complex programs with nested menus. A console program consists of a main `Program` class that contains `Pages`. The `Program` class is a navigator of pages and will keep a history of pages that a user is navigating through. Think of it as your browser history. To create a program you must subclass the `Program` class and add any `Pages` in the constructor. _Note_: Before exiting the constructor, you must set one of the pages as the _main_ page where the program should start.
