@@ -3,131 +3,6 @@ using System.Net;
 
 namespace EasyConsoleNG
 {
-    public delegate string Converter<T>(string rawValue, out T value);
-
-    public static class Converters
-    {
-        public static string ToString(string rawValue, out string value)
-        {
-            value = rawValue;
-            return null;
-        }
-
-        public static string ToInt(string rawValue, out int value)
-        {
-            if(!int.TryParse(rawValue, out value))
-            {
-                return "Please enter a valid integer";
-            }
-            return null;
-        }
-
-        public static string ToNullableInt(string rawValue, out int? value)
-        {
-            var errors = ToInt(rawValue, out int typedValue);
-            if(errors != null)
-            {
-                value = null;
-            }
-            else
-            {
-                value = typedValue;
-            }
-            return errors;
-        }
-
-        public static string ToFloat(string rawValue, out float value)
-        {
-            if (!float.TryParse(rawValue, out value))
-            {
-                return "Please enter a valid floating point number";
-            }
-            return null;
-        }
-
-        public static string ToNullableFloat(string rawValue, out float? value)
-        {
-            var errors = ToFloat(rawValue, out var typedValue);
-            if (errors != null)
-            {
-                value = null;
-            }
-            else
-            {
-                value = typedValue;
-            }
-            return errors;
-        }
-
-        public static string ToDouble(string rawValue, out double value)
-        {
-            if (!double.TryParse(rawValue, out value))
-            {
-                return "Please enter a valid floating point number";
-            }
-            return null;
-        }
-
-        public static string ToNullableDouble(string rawValue, out double? value) 
-        {
-            var errors = ToDouble(rawValue, out var typedValue);
-            if (errors != null)
-            {
-                value = null;
-            }
-            else
-            {
-                value = typedValue;
-            }
-            return errors;
-        }
-
-        public static string ToDateTime(string rawValue, out DateTime value)
-        {
-            if (!DateTime.TryParse(rawValue, out value))
-            {
-                return "Please enter a valid datetime";
-            }
-            return null;
-        }
-
-        public static string ToNullableDateTime(string rawValue, out DateTime? value)
-        {
-            var errors = ToDateTime(rawValue, out var typedValue);
-            if (errors != null)
-            {
-                value = null;
-            }
-            else
-            {
-                value = typedValue;
-            }
-            return errors;
-        }
-
-        public static string ToDateTimeOffset(string rawValue, out DateTimeOffset value)
-        {
-            if (!DateTimeOffset.TryParse(rawValue, out value))
-            {
-                return "Please enter a valid datetime";
-            }
-            return null;
-        }
-
-        public static string ToNullableDateTimeOffset(string rawValue, out DateTimeOffset? value)
-        {
-            var errors = ToDateTime(rawValue, out var typedValue);
-            if (errors != null)
-            {
-                value = null;
-            }
-            else
-            {
-                value = typedValue;
-            }
-            return errors;
-        }
-    }
     public class EasyConsoleInput
     {
         private EasyConsole _console;
@@ -139,108 +14,163 @@ namespace EasyConsoleNG
 
         public string ReadString(string prompt, bool required = false, string defaultValue = null, Func<string, string> validator = null)
         {
-            return RunInputLoop(prompt, required, defaultValue, Converters.ToString, validator);
+            return RunInputLoop(prompt, required, defaultValue, Parsers.ToString, validator);
         }
 
-        public int ReadInt(string prompt, bool required = false, int defaultValue = default, Func<int, string> validator = null)
+        public int ReadInt(string prompt, Func<int, string> validator, bool required = false, int defaultValue = default)
         {
-            return RunInputLoop(prompt, required, defaultValue, Converters.ToInt, validator);
-        }
-        
-        public int? ReadNullableInt(string prompt, bool required = false, int? defaultValue = default, Func<int?, string> validator = null)
-        {
-            return RunInputLoop(prompt, required, defaultValue, Converters.ToNullableInt, validator);
+            return RunInputLoop(prompt, required, defaultValue, Parsers.ToInt, validator);
         }
 
-        public float ReadFloat(string prompt, bool required = false, float defaultValue = default, Func<float, string> validator = null)
+        public int ReadInt(string prompt, bool required = false, int defaultValue = default, int min = int.MinValue, int max = int.MaxValue)
         {
-            return RunInputLoop(prompt, required, defaultValue, Converters.ToFloat, validator);
+            return ReadInt(prompt, (value) =>
+            {
+                var checkMin = min != int.MinValue;
+                var checkMax = max != int.MaxValue;
+
+                var tooSmall = checkMin && value < min;
+                var tooLarge = checkMax && value > max;
+
+                return ValidateRange(checkMin, checkMax, min, max, tooSmall, tooLarge);
+
+            }, required, defaultValue);
         }
 
-        public float? ReadNullableFloat(string prompt, bool required = false, float? defaultValue = default, Func<float?, string> validator = null)
+        public int? ReadNullableInt(string prompt, Func<int?, string> validator, bool required = false, int? defaultValue = default)
         {
-            return RunInputLoop(prompt, required, defaultValue, Converters.ToNullableFloat, validator);
+            return RunInputLoop(prompt, required, defaultValue, Parsers.ToNullableInt, validator);
         }
 
-        public double ReadDouble(string prompt, bool required = false, double defaultValue = default, Func<double, string> validator = null)
+        public int? ReadNullableInt(string prompt, bool required = false, int? defaultValue = default, int min = int.MinValue, int max = int.MaxValue)
         {
-            return RunInputLoop(prompt, required, defaultValue, Converters.ToDouble, validator);
+            return ReadNullableInt(prompt, (value) =>
+            {
+                var checkMin = min != int.MinValue;
+                var checkMax = max != int.MaxValue;
+
+                var tooSmall = checkMin && value < min;
+                var tooLarge = checkMax && value > max;
+
+                return ValidateRange(checkMin, checkMax, min, max, tooSmall, tooLarge);
+
+            }, required, defaultValue);
         }
 
-        public double? ReadNullableDouble(string prompt, bool required = false, double? defaultValue = default, Func<double?, string> validator = null)
+        public float ReadFloat(string prompt, Func<float, string> validator, bool required = false, float defaultValue = default)
         {
-            return RunInputLoop(prompt, required, defaultValue, Converters.ToNullableDouble, validator);
+            return RunInputLoop(prompt, required, defaultValue, Parsers.ToFloat, validator);
+        }
+
+        public float ReadFloat(string prompt, bool required = false, float defaultValue = default, float min = float.MinValue, float max = float.MaxValue)
+        {
+            return ReadFloat(prompt, (value) =>
+            {
+                var checkMin = min != float.MinValue;
+                var checkMax = max != float.MaxValue;
+
+                var tooSmall = checkMin && value < min;
+                var tooLarge = checkMax && value > max;
+
+                return ValidateRange(checkMin, checkMax, min, max, tooSmall, tooLarge);
+            }, required, defaultValue);
+        }
+
+        public float? ReadNullableFloat(string prompt, Func<float?, string> validator, bool required = false, float? defaultValue = default)
+        {
+            return RunInputLoop(prompt, required, defaultValue, Parsers.ToNullableFloat, validator);
+        }
+
+        public float? ReadNullableFloat(string prompt, bool required = false, float? defaultValue = default, float min = float.MinValue, float max = float.MaxValue)
+        {
+            return ReadNullableFloat(prompt, (value) =>
+            {
+                var checkMin = min != float.MinValue;
+                var checkMax = max != float.MaxValue;
+
+                var tooSmall = checkMin && value < min;
+                var tooLarge = checkMax && value > max;
+
+                return ValidateRange(checkMin, checkMax, min, max, tooSmall, tooLarge);
+            }, required, defaultValue);
+        }
+
+        public double ReadDouble(string prompt, Func<double, string> validator, bool required = false, double defaultValue = default)
+        {
+            return RunInputLoop(prompt, required, defaultValue, Parsers.ToDouble, validator);
+        }
+
+        public double ReadDouble(string prompt, bool required = false, double defaultValue = default, double min = double.MinValue, double max = double.MaxValue)
+        {
+            return ReadDouble(prompt, (value) =>
+            {
+                var checkMin = min != double.MinValue;
+                var checkMax = max != double.MaxValue;
+
+                var tooSmall = checkMin && value < min;
+                var tooLarge = checkMax && value > max;
+
+                return ValidateRange(checkMin, checkMax, min, max, tooSmall, tooLarge);
+            }, required, defaultValue);
+        }
+
+        public double? ReadNullableDouble(string prompt, Func<double?, string> validator, bool required = false, double? defaultValue = default)
+        {
+            return RunInputLoop(prompt, required, defaultValue, Parsers.ToNullableDouble, validator);
+        }
+
+        public double? ReadNullableDouble(string prompt, bool required = false, double? defaultValue = default, double min = double.MinValue, double max = double.MaxValue)
+        {
+            return ReadNullableDouble(prompt, (value) =>
+            {
+                var checkMin = min != double.MinValue;
+                var checkMax = max != double.MaxValue;
+
+                var tooSmall = checkMin && value < min;
+                var tooLarge = checkMax && value > max;
+
+                return ValidateRange(checkMin, checkMax, min, max, tooSmall, tooLarge);
+            }, required, defaultValue);
         }
 
         public DateTime ReadDateTime(string prompt, bool required = false, DateTime defaultValue = default, Func<DateTime, string> validator = null)
         {
-            return RunInputLoop(prompt, required, defaultValue, Converters.ToDateTime, validator);
+            return RunInputLoop(prompt, required, defaultValue, Parsers.ToDateTime, validator);
         }
 
         public DateTime? ReadNullableDateTime(string prompt, bool required = false, DateTime? defaultValue = default, Func<DateTime?, string> validator = null)
         {
-            return RunInputLoop(prompt, required, defaultValue, Converters.ToNullableDateTime, validator);
+            return RunInputLoop(prompt, required, defaultValue, Parsers.ToNullableDateTime, validator);
         }
 
         public DateTimeOffset ReadDateTimeOffset(string prompt, bool required = false, DateTimeOffset defaultValue = default, Func<DateTimeOffset, string> validator = null)
         {
-            return RunInputLoop(prompt, required, defaultValue, Converters.ToDateTimeOffset, validator);
+            return RunInputLoop(prompt, required, defaultValue, Parsers.ToDateTimeOffset, validator);
         }
 
         public DateTimeOffset? ReadNullableDateTimeOffset(string prompt, bool required = false, DateTimeOffset? defaultValue = default, Func<DateTimeOffset?, string> validator = null)
         {
-            return RunInputLoop(prompt, required, defaultValue, Converters.ToNullableDateTimeOffset, validator);
+            return RunInputLoop(prompt, required, defaultValue, Parsers.ToNullableDateTimeOffset, validator);
         }
 
-        //public int ReadInt(int min, int max)
-        //{
-        //    var value = ReadInt();
-
-        //    while (value < min || value > max)
-        //    {
-        //        _console.Output.DisplayPrompt("Please enter an integer between {0} and {1} (inclusive)", min, max);
-        //        value = ReadInt();
-        //    }
-
-        //    return value;
-        //}
-
-        public Uri ReadUrl(UriKind uriKind = UriKind.Absolute)
+        public Uri ReadUrl(string prompt, bool required = false, UriKind uriKind = UriKind.Absolute, Uri defaultValue = default, Func<Uri, string> validator = null)
         {
-            var input = _console.ReadLine();
-
-            while (!Uri.IsWellFormedUriString(input, uriKind))
-            {
-                if (uriKind == UriKind.Absolute)
-                {
-                    _console.Output.DisplayPrompt("Please enter a valid absolute URL");
-                }
-                else if (uriKind == UriKind.Relative)
-                {
-                    _console.Output.DisplayPrompt("Please enter a valid absolute URL");
-                }
-                else
-                {
-                    _console.Output.DisplayPrompt("Please enter a valid URL");
-                }
-                input = _console.ReadLine();
-            }
-
-            return new Uri(input);
+            return RunInputLoop(prompt, required, defaultValue, (v) => Parsers.ToUri(v, uriKind), validator);
         }
 
-        public IPAddress ReadIpAddress()
+        public IPAddress ReadIpAddress(string prompt, bool required = false, IPAddress defaultValue = default, Func<IPAddress, string> validator = null)
         {
-            var input = _console.ReadLine();
-            IPAddress value;
+            return RunInputLoop(prompt, required, defaultValue, Parsers.ToIpAddress, validator);
+        }
 
-            while (!IPAddress.TryParse(input, out value))
-            {
-                _console.Output.DisplayPrompt("Please enter a valid IP Address");
-                input = _console.ReadLine();
-            }
+        public IPAddress ReadIpV4Address(string prompt, bool required = false, IPAddress defaultValue = default, Func<IPAddress, string> validator = null)
+        {
+            return RunInputLoop(prompt, required, defaultValue, Parsers.ToIpV4Address, validator);
+        }
 
-            return value;
+        public IPAddress ReadIpV6Address(string prompt, bool required = false, IPAddress defaultValue = default, Func<IPAddress, string> validator = null)
+        {
+            return RunInputLoop(prompt, required, defaultValue, Parsers.ToIpV6Address, validator);
         }
 
         public TEnum ReadEnum<TEnum>(string prompt) where TEnum : struct, IConvertible, IComparable, IFormattable
@@ -262,7 +192,7 @@ namespace EasyConsoleNG
 
         #region Utils
 
-        protected T RunInputLoop<T>(string prompt, bool required, T defaultValue, Converter<T> converter, Func<T, string> validator)
+        protected T RunInputLoop<T>(string prompt, bool required, T defaultValue, Parser<T> converter, Func<T, string> validator)
         {
             while (true)
             {
@@ -279,15 +209,17 @@ namespace EasyConsoleNG
                         continue;
                     }
                 }
-                var error = converter(rawValue, out var value);
-                if(error != null)
+                var result = converter(rawValue);
+                if(result.Error != null)
                 {
-                    _console.WriteLine(error);
+                    _console.WriteLine(result.Error);
                     continue;
                 }
+
+                var value = result.Value;
                 if (validator != null)
                 {
-                    error = validator(value);
+                    var error = validator(value);
                     if (error != null)
                     {
                         _console.WriteLine(error);
@@ -307,6 +239,23 @@ namespace EasyConsoleNG
                 prompt = $"{prompt} (default: {defaultValue})";
             }
             _console.Output.DisplayPrompt(prompt);
+        }
+
+        private static string ValidateRange(bool checkMin, bool checkMax, double min, double max, bool tooSmall, bool tooLarge)
+        {
+            if (checkMin && checkMax && (tooSmall || tooLarge))
+            {
+                return $"Value must be between {min} and {max} (inclusive).";
+            }
+            else if (tooSmall)
+            {
+                return $"Value must not be greater than or equal to {min}.";
+            }
+            else if (tooLarge)
+            {
+                return $"Value must not be less than or equal to {max}.";
+            }
+            return null;
         }
         #endregion
     }

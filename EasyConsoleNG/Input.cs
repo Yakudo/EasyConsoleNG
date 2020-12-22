@@ -12,19 +12,17 @@ namespace EasyConsoleNG
 
         public static string ReadString(string prompt) => Console.Input.ReadString(prompt);
 
-        //public static int ReadInt(string prompt, int min, int max) => Console.Input.ReadInt(prompt, min, max);
-        //public static int ReadInt(int min, int max) => Console.Input.ReadInt( min, max);
-        public static int ReadInt(string prompt) => Console.Input.ReadInt(prompt);
+        public static int ReadInt(string prompt, int min = int.MinValue, int max = int.MaxValue) => Console.Input.ReadInt(prompt, min: min, max: max);
 
-        public static float ReadFloat(string prompt) => Console.Input.ReadFloat(prompt);
+        public static float ReadFloat(string prompt, float min = float.MinValue, float max = float.MaxValue) => Console.Input.ReadFloat(prompt, min: min, max: max);
 
-        public static double ReadDouble(string prompt) => Console.Input.ReadDouble(prompt);
+        public static double ReadDouble(string prompt, double min = double.MinValue, double max = double.MaxValue) => Console.Input.ReadDouble(prompt, min: min, max: max);
 
         public static DateTime ReadDate(string prompt) => Console.Input.ReadDateTime(prompt);
 
-        public static Uri ReadUrl(UriKind uriKind = UriKind.Absolute) => Console.Input.ReadUrl(uriKind);
+        public static Uri ReadUrl(string prompt, UriKind uriKind = UriKind.Absolute) => Console.Input.ReadUrl(prompt, uriKind: uriKind);
 
-        public static IPAddress ReadIpAddress() => Console.Input.ReadIpAddress();
+        public static IPAddress ReadIpAddress(string prompt) => Console.Input.ReadIpAddress(prompt);
 
         public static TEnum ReadEnum<TEnum>(string prompt) where TEnum : struct, IConvertible, IComparable, IFormattable => Console.Input.ReadEnum<TEnum>(prompt);
     }
