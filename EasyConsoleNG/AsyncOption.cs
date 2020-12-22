@@ -1,13 +1,14 @@
 ﻿using System;
+using System.Threading.Tasks;
 
 namespace EasyConsoleNG
 {
-    public class Option : IOption
+    public class AsyncOption : IAsyncOption
     {
         public string Name { get; private set; }
-        public Action Callback { get; private set; }
+        public Func<Task> Callback { get; private set; }
 
-        public Option(string name, Action callback)
+        public AsyncOption(string name, Func<Task> callback)
         {
             Name = name;
             Callback = callback;
@@ -18,16 +19,16 @@ namespace EasyConsoleNG
             return Name;
         }
 
-        public void Execute() => Callback();
+        public Task Execute() => Callback();
     }
 
-    public class Option<T> : IOption
+    public class AsyncOption<T> : IAsyncOption
     {
         public string Name { get; private set; }
         public T Value { get; private set; }
-        public Action<T> Callback { get; private set; }
+        public Func<T, Task> Callback { get; private set; }
 
-        public Option(string name, T value, Action<T> callback)
+        public AsyncOption(string name, T value, Func<T, Task> callback)
         {
             Name = name;
             Value = value;
@@ -39,6 +40,6 @@ namespace EasyConsoleNG
             return Name;
         }
 
-        public void Execute() => Callback(Value);
+        public Task Execute() => Callback(Value);
     }
 }

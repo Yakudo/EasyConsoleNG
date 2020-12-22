@@ -1,14 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace EasyConsoleNG
 {
-    public class Menu
+    public class AsyncMenu
     {
-        private IList<IOption> Options { get; set; } = new List<IOption>();
+        private IList<IAsyncOption> Options { get; set; } = new List<IAsyncOption>();
 
-        public void Display()
+        public async Task Display()
         {
             for (var i = 0; i < Options.Count; i++)
             {
@@ -16,20 +17,20 @@ namespace EasyConsoleNG
             }
             var choice = Input.ReadInt("Choose an option:", min: 1, max: Options.Count);
 
-            Options[choice - 1].Execute();
+            await Options[choice - 1].Execute();
         }
 
-        public Menu Add(string option, Action callback)
+        public AsyncMenu Add(string option, Func<Task> callback)
         {
-            return Add(new Option(option, callback));
+            return Add(new AsyncOption(option, callback));
         }
 
-        public Menu Add<T>(string option, T value, Action<T> callback)
+        public AsyncMenu Add<T>(string option, T value, Func<T, Task> callback)
         {
-            return Add(new Option<T>(option, value, callback));
+            return Add(new AsyncOption<T>(option, value, callback));
         }
 
-        public Menu Add(IOption option)
+        public AsyncMenu Add(IAsyncOption option)
         {
             Options.Add(option);
             return this;
