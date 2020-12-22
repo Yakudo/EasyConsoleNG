@@ -3,6 +3,131 @@ using System.Net;
 
 namespace EasyConsoleNG
 {
+    public delegate string Converter<T>(string rawValue, out T value);
+
+    public static class Converters
+    {
+        public static string ToString(string rawValue, out string value)
+        {
+            value = rawValue;
+            return null;
+        }
+
+        public static string ToInt(string rawValue, out int value)
+        {
+            if(!int.TryParse(rawValue, out value))
+            {
+                return "Please enter a valid integer";
+            }
+            return null;
+        }
+
+        public static string ToNullableInt(string rawValue, out int? value)
+        {
+            var errors = ToInt(rawValue, out int typedValue);
+            if(errors != null)
+            {
+                value = null;
+            }
+            else
+            {
+                value = typedValue;
+            }
+            return errors;
+        }
+
+        public static string ToFloat(string rawValue, out float value)
+        {
+            if (!float.TryParse(rawValue, out value))
+            {
+                return "Please enter a valid floating point number";
+            }
+            return null;
+        }
+
+        public static string ToNullableFloat(string rawValue, out float? value)
+        {
+            var errors = ToFloat(rawValue, out var typedValue);
+            if (errors != null)
+            {
+                value = null;
+            }
+            else
+            {
+                value = typedValue;
+            }
+            return errors;
+        }
+
+        public static string ToDouble(string rawValue, out double value)
+        {
+            if (!double.TryParse(rawValue, out value))
+            {
+                return "Please enter a valid floating point number";
+            }
+            return null;
+        }
+
+        public static string ToNullableDouble(string rawValue, out double? value) 
+        {
+            var errors = ToDouble(rawValue, out var typedValue);
+            if (errors != null)
+            {
+                value = null;
+            }
+            else
+            {
+                value = typedValue;
+            }
+            return errors;
+        }
+
+        public static string ToDateTime(string rawValue, out DateTime value)
+        {
+            if (!DateTime.TryParse(rawValue, out value))
+            {
+                return "Please enter a valid datetime";
+            }
+            return null;
+        }
+
+        public static string ToNullableDateTime(string rawValue, out DateTime? value)
+        {
+            var errors = ToDateTime(rawValue, out var typedValue);
+            if (errors != null)
+            {
+                value = null;
+            }
+            else
+            {
+                value = typedValue;
+            }
+            return errors;
+        }
+
+        public static string ToDateTimeOffset(string rawValue, out DateTimeOffset value)
+        {
+            if (!DateTimeOffset.TryParse(rawValue, out value))
+            {
+                return "Please enter a valid datetime";
+            }
+            return null;
+        }
+
+        public static string ToNullableDateTimeOffset(string rawValue, out DateTimeOffset? value)
+        {
+            var errors = ToDateTime(rawValue, out var typedValue);
+            if (errors != null)
+            {
+                value = null;
+            }
+            else
+            {
+                value = typedValue;
+            }
+            return errors;
+        }
+    }
     public class EasyConsoleInput
     {
         private EasyConsole _console;
@@ -12,105 +137,73 @@ namespace EasyConsoleNG
             _console = console;
         }
 
-        public string ReadString(string prompt)
+        public string ReadString(string prompt, bool required = false, string defaultValue = null, Func<string, string> validator = null)
         {
-            _console.Output.DisplayPrompt(prompt);
-            return _console.ReadLine();
+            return RunInputLoop(prompt, required, defaultValue, Converters.ToString, validator);
         }
 
-
-        public string ReadString(string prompt, bool required = false, string defaultValue = null)
+        public int ReadInt(string prompt, bool required = false, int defaultValue = default, Func<int, string> validator = null)
         {
-            DisplayPromptWithDefaultValue(prompt, defaultValue);
-
-            var value = _console.ReadLine();
-            if (required)
-            {
-                while (string.IsNullOrWhiteSpace(value))
-                {
-                    _console.WriteLine("Value must not be empty.");
-                    DisplayPromptWithDefaultValue(prompt, defaultValue);
-                    value = _console.ReadLine();
-                }
-            }
-
-            return !string.IsNullOrWhiteSpace(value) ? value : defaultValue;
+            return RunInputLoop(prompt, required, defaultValue, Converters.ToInt, validator);
+        }
+        
+        public int? ReadNullableInt(string prompt, bool required = false, int? defaultValue = default, Func<int?, string> validator = null)
+        {
+            return RunInputLoop(prompt, required, defaultValue, Converters.ToNullableInt, validator);
         }
 
-        public int ReadInt(string prompt, int min, int max)
+        public float ReadFloat(string prompt, bool required = false, float defaultValue = default, Func<float, string> validator = null)
         {
-            _console.Output.DisplayPrompt(prompt);
-            return ReadInt(min, max);
+            return RunInputLoop(prompt, required, defaultValue, Converters.ToFloat, validator);
         }
 
-        public int ReadInt(int min, int max)
+        public float? ReadNullableFloat(string prompt, bool required = false, float? defaultValue = default, Func<float?, string> validator = null)
         {
-            var value = ReadInt();
-
-            while (value < min || value > max)
-            {
-                _console.Output.DisplayPrompt("Please enter an integer between {0} and {1} (inclusive)", min, max);
-                value = ReadInt();
-            }
-
-            return value;
+            return RunInputLoop(prompt, required, defaultValue, Converters.ToNullableFloat, validator);
         }
 
-        public int ReadInt()
+        public double ReadDouble(string prompt, bool required = false, double defaultValue = default, Func<double, string> validator = null)
         {
-            var input = _console.ReadLine();
-            int value;
-
-            while (!int.TryParse(input, out value))
-            {
-                _console.Output.DisplayPrompt("Please enter an integer");
-                input = _console.ReadLine();
-            }
-
-            return value;
+            return RunInputLoop(prompt, required, defaultValue, Converters.ToDouble, validator);
         }
 
-        public float ReadFloat()
+        public double? ReadNullableDouble(string prompt, bool required = false, double? defaultValue = default, Func<double?, string> validator = null)
         {
-            var input = _console.ReadLine();
-            float value;
-
-            while (!float.TryParse(input, out value))
-            {
-                _console.Output.DisplayPrompt("Please enter an floating point number");
-                input = _console.ReadLine();
-            }
-
-            return value;
+            return RunInputLoop(prompt, required, defaultValue, Converters.ToNullableDouble, validator);
         }
 
-        public double ReadDouble()
+        public DateTime ReadDateTime(string prompt, bool required = false, DateTime defaultValue = default, Func<DateTime, string> validator = null)
         {
-            var input = _console.ReadLine();
-            double value;
-
-            while (!double.TryParse(input, out value))
-            {
-                _console.Output.DisplayPrompt("Please enter an floating point number");
-                input = _console.ReadLine();
-            }
-
-            return value;
+            return RunInputLoop(prompt, required, defaultValue, Converters.ToDateTime, validator);
         }
 
-        public DateTime ReadDate()
+        public DateTime? ReadNullableDateTime(string prompt, bool required = false, DateTime? defaultValue = default, Func<DateTime?, string> validator = null)
         {
-            var input = _console.ReadLine();
-            DateTime value;
-
-            while (!DateTime.TryParse(input, out value))
-            {
-                _console.Output.DisplayPrompt("Please enter an datetime");
-                input = _console.ReadLine();
-            }
-
-            return value;
+            return RunInputLoop(prompt, required, defaultValue, Converters.ToNullableDateTime, validator);
         }
+
+        public DateTimeOffset ReadDateTimeOffset(string prompt, bool required = false, DateTimeOffset defaultValue = default, Func<DateTimeOffset, string> validator = null)
+        {
+            return RunInputLoop(prompt, required, defaultValue, Converters.ToDateTimeOffset, validator);
+        }
+
+        public DateTimeOffset? ReadNullableDateTimeOffset(string prompt, bool required = false, DateTimeOffset? defaultValue = default, Func<DateTimeOffset?, string> validator = null)
+        {
+            return RunInputLoop(prompt, required, defaultValue, Converters.ToNullableDateTimeOffset, validator);
+        }
+
+        //public int ReadInt(int min, int max)
+        //{
+        //    var value = ReadInt();
+
+        //    while (value < min || value > max)
+        //    {
+        //        _console.Output.DisplayPrompt("Please enter an integer between {0} and {1} (inclusive)", min, max);
+        //        value = ReadInt();
+        //    }
+
+        //    return value;
+        //}
 
         public Uri ReadUrl(UriKind uriKind = UriKind.Absolute)
         {
@@ -168,6 +261,43 @@ namespace EasyConsoleNG
         }
 
         #region Utils
+
+        protected T RunInputLoop<T>(string prompt, bool required, T defaultValue, Converter<T> converter, Func<T, string> validator)
+        {
+            while (true)
+            {
+                DisplayPromptWithDefaultValue(prompt, defaultValue);
+                var rawValue = _console.ReadLine();
+                if (string.IsNullOrWhiteSpace(rawValue))
+                {
+                    if (!required)
+                    {
+                        return defaultValue;
+                    }
+                    else
+                    {
+                        continue;
+                    }
+                }
+                var error = converter(rawValue, out var value);
+                if(error != null)
+                {
+                    _console.WriteLine(error);
+                    continue;
+                }
+                if (validator != null)
+                {
+                    error = validator(value);
+                    if (error != null)
+                    {
+                        _console.WriteLine(error);
+                        continue;
+                    }
+                }
+
+                return value;
+            }
+        }
 
         protected void DisplayPromptWithDefaultValue(string prompt, object defaultValue)
         {

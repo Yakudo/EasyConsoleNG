@@ -8,7 +8,7 @@ using System.Text;
 namespace EasyConsoleNG.Tests
 {
     [TestFixture]
-    public class EasyConsoleInputTest
+    public class EasyConsoleInputTest_String
     {
         private TestEasyConsole console;
 
@@ -18,7 +18,6 @@ namespace EasyConsoleNG.Tests
             console = new TestEasyConsole();
         }
 
-        #region Read String
         [Test]
         public void GivenInput_WhenReadingString_ShouldReturnEnteredValue()
         {
@@ -49,7 +48,7 @@ namespace EasyConsoleNG.Tests
             var value = console.Input.ReadString("Value:", required: true, defaultValue: "foo");
             value.Should().Be("BAR");
 
-            console.CapturedOutput.Should().Be("Value (default: foo): Value must not be empty.\nValue (default: foo): ");
+            console.CapturedOutput.Should().Be("Value (default: foo): Value (default: foo): ");
         }
 
         [Test]
@@ -62,8 +61,6 @@ namespace EasyConsoleNG.Tests
 
             console.CapturedOutput.Should().Be("Value (default: foo): ");
         }
-
-        #endregion
     }
 
 }

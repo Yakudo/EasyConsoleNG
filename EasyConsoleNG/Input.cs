@@ -12,15 +12,15 @@ namespace EasyConsoleNG
 
         public static string ReadString(string prompt) => Console.Input.ReadString(prompt);
 
-        public static int ReadInt(string prompt, int min, int max) => Console.Input.ReadInt(prompt, min, max);
-        public static int ReadInt(int min, int max) => Console.Input.ReadInt( min, max);
-        public static int ReadInt() => Console.Input.ReadInt();
+        //public static int ReadInt(string prompt, int min, int max) => Console.Input.ReadInt(prompt, min, max);
+        //public static int ReadInt(int min, int max) => Console.Input.ReadInt( min, max);
+        public static int ReadInt(string prompt) => Console.Input.ReadInt(prompt);
 
-        public static float ReadFloat() => Console.Input.ReadFloat();
+        public static float ReadFloat(string prompt) => Console.Input.ReadFloat(prompt);
 
-        public static double ReadDouble() => Console.Input.ReadDouble();
+        public static double ReadDouble(string prompt) => Console.Input.ReadDouble(prompt);
 
-        public static DateTime ReadDate() => Console.Input.ReadDate();
+        public static DateTime ReadDate(string prompt) => Console.Input.ReadDateTime(prompt);
 
         public static Uri ReadUrl(UriKind uriKind = UriKind.Absolute) => Console.Input.ReadUrl(uriKind);
 
