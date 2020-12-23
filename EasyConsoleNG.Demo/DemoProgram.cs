@@ -1,4 +1,5 @@
 ﻿using EasyConsoleNG.Demo.Pages;
+using EasyConsoleNG.Menus;
 
 namespace EasyConsoleNG.Demo
 {

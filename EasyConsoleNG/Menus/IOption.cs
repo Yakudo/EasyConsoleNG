@@ -1,4 +1,4 @@
-﻿namespace EasyConsoleNG
+﻿namespace EasyConsoleNG.Menus
 {
     public interface IOption
     {

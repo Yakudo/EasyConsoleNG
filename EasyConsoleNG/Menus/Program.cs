@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 
-namespace EasyConsoleNG
+namespace EasyConsoleNG.Menus
 {
     public abstract class Program
     {
@@ -40,6 +40,10 @@ namespace EasyConsoleNG
                 Console.Title = Title;
 
                 CurrentPage.Display();
+            }
+            catch (EndProgramException)
+            {
+                //NOOP
             }
             catch (Exception e)
             {

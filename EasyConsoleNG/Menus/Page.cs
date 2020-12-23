@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq;
 
-namespace EasyConsoleNG
+namespace EasyConsoleNG.Menus
 {
     public abstract class Page
     {

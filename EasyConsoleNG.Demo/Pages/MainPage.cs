@@ -1,4 +1,6 @@
-﻿namespace EasyConsoleNG.Demo.Pages
+﻿using EasyConsoleNG.Menus;
+
+namespace EasyConsoleNG.Demo.Pages
 {
     internal class MainPage : MenuPage
     {
@@ -6,7 +8,8 @@
             : base("Main Page", program,
                   new Option("Page 1", () => program.NavigateTo<Page1>()),
                   new Option("Page 2", () => program.NavigateTo<Page2>()),
-                  new Option("Input", () => program.NavigateTo<InputPage>()))
+                  new Option("Input", () => program.NavigateTo<InputPage>()),
+                  new Option("Exit", () => throw new EndProgramException()))
         {
         }
     }

@@ -1,4 +1,6 @@
-﻿namespace EasyConsoleNG.Demo.Pages
+﻿using EasyConsoleNG.Menus;
+
+namespace EasyConsoleNG.Demo.Pages
 {
     internal class Page1A : MenuPage
     {

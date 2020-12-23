@@ -1,4 +1,5 @@
-﻿using System;
+﻿using EasyConsoleNG.Menus;
+using System;
 using System.Net;
 
 namespace EasyConsoleNG

@@ -10,13 +10,13 @@ namespace EasyConsoleNG
     {
         private static EasyConsole Console => EasyConsole.Instance;
 
-        public static string ReadString(string prompt) => Console.Input.ReadString(prompt);
+        public static string ReadString(string prompt, string defaultValue = null) => Console.Input.ReadString(prompt, defaultValue: defaultValue);
 
-        public static int ReadInt(string prompt, int min = int.MinValue, int max = int.MaxValue) => Console.Input.ReadInt(prompt, min: min, max: max);
+        public static int ReadInt(string prompt, int min = int.MinValue, int max = int.MaxValue, int defaultValue = 0) => Console.Input.ReadInt(prompt, min: min, max: max, defaultValue: defaultValue);
 
-        public static float ReadFloat(string prompt, float min = float.MinValue, float max = float.MaxValue) => Console.Input.ReadFloat(prompt, min: min, max: max);
+        public static float ReadFloat(string prompt, float min = float.MinValue, float max = float.MaxValue, float defaultValue = 0f) => Console.Input.ReadFloat(prompt, min: min, max: max, defaultValue: defaultValue);
 
-        public static double ReadDouble(string prompt, double min = double.MinValue, double max = double.MaxValue) => Console.Input.ReadDouble(prompt, min: min, max: max);
+        public static double ReadDouble(string prompt, double min = double.MinValue, double max = double.MaxValue, double defaultValue = 0) => Console.Input.ReadDouble(prompt, min: min, max: max, defaultValue: defaultValue);
 
         public static DateTime ReadDate(string prompt) => Console.Input.ReadDateTime(prompt);
 

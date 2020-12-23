@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace EasyConsoleNG
+namespace EasyConsoleNG.Menus
 {
     public class AsyncMenu
     {
@@ -15,7 +15,7 @@ namespace EasyConsoleNG
             {
                 Console.WriteLine("{0}. {1}", i + 1, Options[i].Name);
             }
-            var choice = 0;// Input.ReadInt("Choose an option:", min: 1, max: Options.Count);
+            var choice = Input.ReadInt("Choose an option:", min: 1, max: Options.Count, defaultValue: 1);
 
             await Options[choice - 1].Execute();
         }
