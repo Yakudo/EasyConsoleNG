@@ -53,6 +53,6 @@ namespace EasyConsoleNG
         public Task WriteLineAsync(string format, object[] args) => OutputWriter.WriteLineAsync(string.Format(format, args));
 
         public Menu<T> Menu<T>(params Option<T>[] options) => new Menu<T>(this, options);
-        public Menu<T> Menu<T>(IEnumerable<Option<T>> options) => new Menu<T>(this, options);
+        public Menu<T> Menu<T>(IEnumerable<Option<T>> options, bool required = false, T defaultValue = default) => new Menu<T>(this, options, required, defaultValue);
     }
 }

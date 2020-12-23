@@ -8,9 +8,11 @@ namespace EasyConsoleNG.Menus
     {
         private readonly EasyConsole _console;
 
-        private List<Option<T>> Options { get; set; };
+        private List<Option<T>> Options { get; set; }
+        public bool Required { get; set; }
+        public T DefaultValue { get; set; }
 
-        public Menu(EasyConsole console = null, IEnumerable<Option<T>> options = null)
+        public Menu(EasyConsole console = null, IEnumerable<Option<T>> options = null, bool required = false, T defaultValue = default)
         {
             _console = console ?? EasyConsole.Instance;
 
@@ -22,6 +24,9 @@ namespace EasyConsoleNG.Menus
             {
                 Options = new List<Option<T>>();
             }
+
+            Required = required;
+            DefaultValue = defaultValue;
         }
 
         public T Display()
@@ -32,9 +37,21 @@ namespace EasyConsoleNG.Menus
                 {
                     _console.Output.WriteLine("{0}. {1}", i + 1, Options[i].Name);
                 }
-                var choice = _console.Input.ReadInt("Choose an option:", min: 1, max: Options.Count, defaultValue: 1);
 
-                var idx = choice - 1;
+                int idx;
+
+                if (Required)
+                {
+                    var choice = _console.Input.ReadInt("Choose an option", min: 1, max: Options.Count, defaultValue: 1, required: true);
+                    idx = choice - 1;
+                }
+                else
+                {
+                    var choice = _console.Input.ReadNullableInt("Choose an option", min: 1, max: Options.Count, defaultValue: null, required: false);
+                    if (choice == null) return DefaultValue;
+                    idx = choice.Value - 1;
+                }
+
                 if (idx < 0 || idx > Options.Count)
                 {
                     _console.Output.WriteLine($"Invalid option.");
@@ -42,7 +59,7 @@ namespace EasyConsoleNG.Menus
                     continue;
                 }
 
-                return Options[choice - 1].Value;
+                return Options[idx].Value;
             }
         }
 
