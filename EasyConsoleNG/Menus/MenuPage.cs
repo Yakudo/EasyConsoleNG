@@ -1,13 +1,15 @@
-﻿namespace EasyConsoleNG.Menus
+﻿using System;
+
+namespace EasyConsoleNG.Menus
 {
     public abstract class MenuPage : Page
     {
-        protected Menu Menu { get; set; }
+        protected Menu<Action> Menu { get; set; }
 
-        public MenuPage(string title, Program program, params Option[] options)
+        public MenuPage(string title, Program program, params Option<Action>[] options)
             : base(title, program)
         {
-            Menu = new Menu();
+            Menu = new Menu<Action>();
 
             foreach (var option in options)
                 Menu.Add(option);

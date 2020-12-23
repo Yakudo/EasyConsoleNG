@@ -1,4 +1,5 @@
 ﻿using EasyConsoleNG.Menus;
+using System;
 
 namespace EasyConsoleNG.Demo.Pages
 {
@@ -6,10 +7,10 @@ namespace EasyConsoleNG.Demo.Pages
     {
         public MainPage(Program program)
             : base("Main Page", program,
-                  new Option("Page 1", () => program.NavigateTo<Page1>()),
-                  new Option("Page 2", () => program.NavigateTo<Page2>()),
-                  new Option("Input", () => program.NavigateTo<InputPage>()),
-                  new Option("Exit", () => throw new EndProgramException()))
+                  new Option<Action>("Page 1", () => program.NavigateTo<Page1>()),
+                  new Option<Action>("Page 2", () => program.NavigateTo<Page2>()),
+                  new Option<Action>("Input", () => program.NavigateTo<InputPage>()),
+                  new Option<Action>("Exit", () => throw new EndProgramException()))
         {
         }
     }

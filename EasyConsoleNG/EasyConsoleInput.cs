@@ -1,5 +1,7 @@
 ﻿using EasyConsoleNG.Menus;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Net;
 
 namespace EasyConsoleNG
@@ -181,15 +183,31 @@ namespace EasyConsoleNG
             if (!type.IsEnum) throw new ArgumentException("TEnum must be an enumerated type");
 
             _console.WriteLine(prompt);
-            var menu = new Menu();
+            var menu = _console.Menu<TEnum>();
 
-            var choice = default(TEnum);
             foreach (var value in Enum.GetValues(type))
-                menu.Add(Enum.GetName(type, value), () => { choice = (TEnum)value; });
-            menu.Display();
-
-            return choice;
+            {
+                menu.Add(Enum.GetName(type, value), (TEnum) value);
+            }
+            return menu.Display();
         }
+
+
+        public T ReadOption<T>(string prompt, IEnumerable<T> values)
+        {
+            var options = values.Select(m => new Option<T>(m.ToString(), m));
+            return ReadOption<T>(prompt, options);
+        }
+
+        public T ReadOption<T>(string prompt, params T[] values) => ReadOption<T>(prompt, (IEnumerable<T>) values);
+
+        public T ReadOption<T>(string prompt, IEnumerable<Option<T>> options)
+        {
+            var menu = _console.Menu(options);
+            return menu.Display();
+        }
+
+        public T ReadOption<T>(string prompt, params Option<T>[] options) => ReadOption<T>(prompt, (IEnumerable<Option<T>>) options);
 
         #region Utils
 

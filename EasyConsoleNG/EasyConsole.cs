@@ -1,4 +1,5 @@
-﻿using System;
+﻿using EasyConsoleNG.Menus;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
@@ -50,5 +51,8 @@ namespace EasyConsoleNG
         public void WriteLine(string prompt) => OutputWriter.WriteLine(prompt);
         public void WriteLine(string format, object[] args) => OutputWriter.WriteLine(format, args);
         public Task WriteLineAsync(string format, object[] args) => OutputWriter.WriteLineAsync(string.Format(format, args));
+
+        public Menu<T> Menu<T>(params Option<T>[] options) => new Menu<T>(this, options);
+        public Menu<T> Menu<T>(IEnumerable<Option<T>> options) => new Menu<T>(this, options);
     }
 }
