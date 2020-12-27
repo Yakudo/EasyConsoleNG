@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Net;
+using System.Net.Mail;
 using System.Net.Sockets;
 
 namespace EasyConsoleNG
@@ -134,6 +135,20 @@ namespace EasyConsoleNG
             return ParseResult.AsSuccess(new Uri(rawValue));
         }
 
+        internal static ParseResult<MailAddress> ToEmail(string rawValue)
+        {
+            rawValue = rawValue.Trim();
+
+            try { 
+                var value = new MailAddress(rawValue);
+                return ParseResult.AsSuccess(value);
+            }
+            catch (FormatException)
+            {
+                return ParseResult.AsError<MailAddress>("Please enter a valid email address.");
+            }
+        }
+
         public static ParseResult<IPAddress> ToIpAddress(string rawValue)
         {
             rawValue = rawValue.Trim();
@@ -169,5 +184,6 @@ namespace EasyConsoleNG
 
             return ParseResult.AsError<IPAddress>("Please enter a valid IPv6 Address.");
         }
+
     }
 }
