@@ -1,8 +1,8 @@
-# EasyConsoleNG [![NuGet](https://img.shields.io/nuget/v/EasyConsole.svg)](https://www.nuget.org/packages/EasyConsole/)1
+# EasyConsoleNG [![NuGet](https://img.shields.io/nuget/v/EasyConsoleNG.svg)](https://www.nuget.org/packages/EasyConsoleNG/)
 
-EasyConsoleNG is a fork of [EasyConsole](https://github.com/splttingatms/EasyConsole) - a library to make it easier for developers to build a simple menu interface for a .NET console application. 
+EasyConsoleNG is a fork of [EasyConsole](https://github.com/splttingatms/EasyConsole) - a library to make it easier for developers to build a simple forms handling interface for a .NET console application. 
 
-EasyConsoleNG stands for EasyConsole Next Generation. It adds several modern-era improvements such as support for async or .NET Standard. As of 2020 the original EasyConsole project is basically dead and not maintained any more, so the fork was necessary to keep the project alive.
+As of 2020 the original EasyConsole project is basically dead and not maintained any more. A fork was necessary to add new features and improve the library with modern-era stuff like support compatibility with .NET Standard. 
 
 ### Features
 
@@ -13,6 +13,10 @@ EasyConsoleNG stands for EasyConsole Next Generation. It adds several modern-era
 * Input/Output helpers
 
 ## Quick Start
+
+### Inputs
+
+
 ### Menu
 The base functionality of the library is to provide an easy way to create console menus. A `Menu` consists of `Options` that will be presented to a user for selection. An option contains a name, that will be displayed to the user, and a callback function to invoke if the user selects the option. Render the menu in the console using the `Display()` method.
 

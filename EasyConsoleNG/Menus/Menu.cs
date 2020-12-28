@@ -1,82 +1,83 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 
 namespace EasyConsoleNG.Menus
 {
-    public class Menu<T>
+    public class Menu
     {
-        private readonly EasyConsole _console;
+        public string InitialPage { get; set; }
+        public Stack<IMenuPage> History { get; private set; } = new Stack<IMenuPage>();
+        public Dictionary<string, IMenuPage> Pages { get; set; } = new Dictionary<string, IMenuPage>();
 
-        private List<Option<T>> Options { get; set; }
-        public bool Required { get; set; }
-        public T DefaultValue { get; set; }
-
-        public Menu(EasyConsole console = null, IEnumerable<Option<T>> options = null, bool required = false, T defaultValue = default)
+        public void Push(string name)
         {
-            _console = console ?? EasyConsole.Instance;
-
-            if(options != null)
-            {
-                Options = options.ToList();
-            }
-            else
-            {
-                Options = new List<Option<T>>();
-            }
-
-            Required = required;
-            DefaultValue = defaultValue;
+            var page = GetPage(name);
+            Push(page);
         }
 
-        public T Display()
+        public void Push(IMenuPage page)
         {
-            while (true) 
+            History.Push(page);
+        }
+
+        public void Replace(IMenuPage page)
+        {
+            Pop();
+            Push(page);
+        }
+
+        public void Pop()
+        {
+            History.Pop();
+        }
+
+        public IMenuPage GetPage(string name)
+        {
+            if (Pages.TryGetValue(name, out var page))
             {
-                for (var i = 0; i < Options.Count; i++)
-                {
-                    _console.Output.WriteLine("{0}. {1}", i + 1, Options[i].Name);
-                }
+                return page;
+            }
+            return null;
+        }
 
-                int idx;
+        public void AddPage(string name, IMenuPage page)
+        {
+            Pages[name] = page;
+            InitialPage = InitialPage ?? name;
+        }
 
-                if (Required)
-                {
-                    var choice = _console.Input.ReadInt("Choose an option", min: 1, max: Options.Count, defaultValue: 1, required: true);
-                    idx = choice - 1;
-                }
-                else
-                {
-                    var choice = _console.Input.ReadNullableInt("Choose an option", min: 1, max: Options.Count, defaultValue: null, required: false);
-                    if (choice == null) return DefaultValue;
-                    idx = choice.Value - 1;
-                }
-
-                if (idx < 0 || idx > Options.Count)
-                {
-                    _console.Output.WriteLine($"Invalid option.");
-
-                    continue;
-                }
-
-                return Options[idx].Value;
+        protected IMenuPage CurrentPage
+        {
+            get
+            {
+                return (History.Any()) ? History.Peek() : null;
             }
         }
 
-        public Menu<T> Add(string option, T value)
+        public virtual void Run()
         {
-            return Add(new Option<T>(option, value));
-        }
+            History.Clear();
+            var page = GetPage(InitialPage);
+            Push(page);
 
-        public Menu<T> Add(Option<T> option)
-        {
-            Options.Add(option);
-            return this;
-        }
-
-        public bool Contains(string option)
-        {
-            return Options.FirstOrDefault((op) => op.Name.Equals(option)) != null;
+            while(CurrentPage != null)
+            {
+                Console.Clear();
+                try
+                {
+                    CurrentPage.Display();
+                }
+                catch (EndMenuException)
+                {
+                    return;
+                }
+                catch (Exception e)
+                {
+                    Output.WriteLine(ConsoleColor.Red, e.ToString());
+                }
+            }
         }
     }
 }

@@ -1,4 +1,4 @@
-﻿using EasyConsoleNG.Menus;
+﻿using EasyConsoleNG.Selects;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -52,7 +52,7 @@ namespace EasyConsoleNG
         public void WriteLine(string format, object[] args) => OutputWriter.WriteLine(format, args);
         public Task WriteLineAsync(string format, object[] args) => OutputWriter.WriteLineAsync(string.Format(format, args));
 
-        public Menu<T> Menu<T>(params Option<T>[] options) => new Menu<T>(this, options);
-        public Menu<T> Menu<T>(IEnumerable<Option<T>> options, bool required = false, T defaultValue = default) => new Menu<T>(this, options, required, defaultValue);
+        public Select<T> Select<T>(params SelectOption<T>[] options) => new Select<T>(this, options);
+        public Select<T> Select<T>(IEnumerable<SelectOption<T>> options, bool required = false, T defaultValue = default) => new Select<T>(this, options, required, defaultValue);
     }
 }

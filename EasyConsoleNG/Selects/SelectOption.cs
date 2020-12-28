@@ -1,13 +1,13 @@
 ﻿using System;
 
-namespace EasyConsoleNG.Menus
+namespace EasyConsoleNG.Selects
 {
-    public class Option<T>
+    public class SelectOption<T>
     {
         public string Name { get; private set; }
         public T Value { get; private set; }
         
-        public Option(string name, T value)
+        public SelectOption(string name, T value)
         {
             Name = name;
             Value = value;

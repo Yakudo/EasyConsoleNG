@@ -135,7 +135,7 @@ namespace EasyConsoleNG
             return ParseResult.AsSuccess(new Uri(rawValue));
         }
 
-        internal static ParseResult<MailAddress> ToEmail(string rawValue)
+        public static ParseResult<MailAddress> ToEmail(string rawValue)
         {
             rawValue = rawValue.Trim();
 

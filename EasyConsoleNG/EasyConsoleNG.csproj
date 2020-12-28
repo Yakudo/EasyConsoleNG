@@ -7,9 +7,10 @@
     <PackageLicenseUrl>https://github.com/Yakudo/EasyConsoleNG/blob/master/LICENSE</PackageLicenseUrl>
     <PackageProjectUrl>https://github.com/Yakudo/EasyConsoleNG/</PackageProjectUrl>
     <Company>EasyConsoleNG</Company>
-    <Description>A library to make it easier for developers to build a simple user interface for a .NET console application.</Description>
+    <Description>A library to create forms and in  a .NET console application.</Description>
     <Copyright>Copyright (c) 2016</Copyright>
     <RepositoryUrl>https://github.com/Yakudo/EasyConsoleNG/</RepositoryUrl>
+    <PackageTags>console forms interactive creator input stdin</PackageTags>
   </PropertyGroup>
 
   <ItemGroup>

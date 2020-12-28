@@ -3,33 +3,18 @@ using System.Linq;
 
 namespace EasyConsoleNG.Menus
 {
-    public abstract class Page
+
+    public abstract class Page : IMenuPage
     {
-        public string Title { get; private set; }
+        protected Menu Menu { get; }
 
-        public Program Program { get; set; }
-
-        public Page(string title, Program program)
+        protected Page(Menu menu)
         {
-            Title = title;
-            Program = program;
+            Menu = menu;
         }
 
-        public virtual void Display()
-        {
-            if (Program.History.Count > 1 && Program.BreadcrumbHeader)
-            {
-                string breadcrumb = null;
-                foreach (var title in Program.History.Select((page) => page.Title).Reverse())
-                    breadcrumb += title + " > ";
-                breadcrumb = breadcrumb.Remove(breadcrumb.Length - 3);
-                Console.WriteLine(breadcrumb);
-            }
-            else
-            {
-                Console.WriteLine(Title);
-            }
-            Console.WriteLine("---");
-        }
+        public abstract string GetTitle();
+
+        public abstract void Display();
     }
 }

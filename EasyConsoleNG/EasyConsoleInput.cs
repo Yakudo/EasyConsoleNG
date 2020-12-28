@@ -1,4 +1,4 @@
-﻿using EasyConsoleNG.Menus;
+﻿using EasyConsoleNG.Selects;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -221,7 +221,7 @@ namespace EasyConsoleNG
             if (!type.IsEnum) throw new ArgumentException("TEnum must be an enumerated type");
 
             _console.WriteLine(prompt);
-            var menu = _console.Menu<TEnum>();
+            var menu = _console.Select<TEnum>();
 
             foreach (var value in Enum.GetValues(type))
             {
@@ -236,19 +236,19 @@ namespace EasyConsoleNG
 
         public T ReadOption<T>(string prompt, IEnumerable<T> values, bool required = false, T defaultValue = default)
         {
-            var options = values.Select(m => new Option<T>(m.ToString(), m));
+            var options = values.Select(m => new SelectOption<T>(m.ToString(), m));
             return ReadOption<T>(prompt, options, required, defaultValue);
         }
 
         public T ReadOption<T>(string prompt, params T[] values) => ReadOption<T>(prompt, (IEnumerable<T>)values);
 
-        public T ReadOption<T>(string prompt, IEnumerable<Option<T>> options, bool required = false, T defaultValue = default)
+        public T ReadOption<T>(string prompt, IEnumerable<SelectOption<T>> options, bool required = false, T defaultValue = default)
         {
-            var menu = _console.Menu(options, required, defaultValue);
+            var menu = _console.Select(options, required, defaultValue);
             return menu.Display();
         }
 
-        public T ReadOption<T>(string prompt, params Option<T>[] options) => ReadOption<T>(prompt, (IEnumerable<Option<T>>)options);
+        public T ReadOption<T>(string prompt, params SelectOption<T>[] options) => ReadOption<T>(prompt, (IEnumerable<SelectOption<T>>)options);
 
         #endregion Option
 

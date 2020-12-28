@@ -6,6 +6,19 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Pages\**" />
+    <EmbeddedResource Remove="Pages\**" />
+    <None Remove="Pages\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Include="Pages\InputMenuPage.cs" />
+    <Compile Include="Pages\InputNumberPage.cs" />
+    <Compile Include="Pages\InputStringPage.cs" />
+    <Compile Include="Pages\MainPage.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\EasyConsoleNG\EasyConsoleNG.csproj" />
   </ItemGroup>
 
