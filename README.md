@@ -1,23 +1,107 @@
 # EasyConsoleNG [![NuGet](https://img.shields.io/nuget/v/EasyConsoleNG.svg)](https://www.nuget.org/packages/EasyConsoleNG/)
 
-EasyConsoleNG is a fork of [EasyConsole](https://github.com/splttingatms/EasyConsole) - a library to make it easier for developers to build a simple forms handling interface for a .NET console application. 
+EasyConsoleNG is a loose rework of [EasyConsole](https://github.com/splttingatms/EasyConsole) - a library to make it easier for developers to build a simple forms handling interface for a .NET console application. 
 
-As of 2020 the original EasyConsole project is basically dead and not maintained any more. A fork was necessary to add new features and improve the library with modern-era stuff like support compatibility with .NET Standard. 
-
-### Features
-
-![Program Demo](https://i.imgur.com/Hlc2QoI.gif)
-
-* Automatically numbered menus
-* Fluent creation of menus
-* Input/Output helpers
+As of 2020 the original EasyConsole project is basically dead and not maintained any more. A fork was necessary to add new features and improve the library with modern-era .NET.
 
 ## Quick Start
 
 ### Inputs
 
+```c#
+// Create a new console
+var console = new EasyConsole();
 
-### Menu
+var value = Console.Input.ReadString("Enter a string");
+Console.Output.WriteLine(ConsoleColor.Green, "You entered: '{0}'", value);
+```
+
+You can mark input's as required using `required: true` parameter. This would prevent from entering an empty value. 
+
+```c#
+var value2 = Console.Input.ReadString("Enter a required string", required: true);
+Console.Output.WriteLine(ConsoleColor.Green, "You entered: '{0}'", value2);
+```
+
+Optionally a default value can be provided using `defaultValue: <value>` parameter:
+
+```c#
+var value3 = Console.Input.ReadString("Enter a required string with default", defaultValue: "foo");
+Console.Output.WriteLine(ConsoleColor.Green, "You entered: '{0}'", value3);``
+```
+
+### Supported data types
+
+Different data types are handled by corresponding `Read` methods:
+
+| Data type       | Method                     | Output CLR Type               |
+| --------------- | -------------------------- | ----------------------------- |
+| string          | ReadString(...)            | `string`                      |
+| boolean         | ReadBoolean(...)           | `bool`                        |
+| boolean         | ReadNullableBoolean(...)   | `bool?`                       |
+| int             | ReadLong(...)              | `long`                        |                
+| int             | ReadNullableLong(...)      | `long?`                       | 
+| long            | ReadInt(...)               | `int`                         |                
+| long            | ReadNullableInt(...)       | `int?`                        | 
+| float           | ReadFloat(...)             | `float`                       |
+| float           | ReadNullableFloat(...)     | `float?`                      |
+| double          | ReadDouble(...)            | `double`                      |
+| double          | ReadNullableDouble(...)    | `double?`                     |
+| Enum            | ReadEnum<T>(...)           | `<T>`                         |
+| Enum            | ReadEnum(type, ...)        | `object`                      |
+| DateTime        | ReadDateTime(...)          | `System.DateTime`             |
+| DateTime        | ReadNullableDateTime(...)  | `System.DateTime?`            | 
+| DateTimeOffset  | ReadDateTimeOffset(...)    | `System.DateTimeOffset`       |
+| DateTimeOffset  | ReadNullableDateTimeOffset(...) | `System.DateTimeOffset?` |
+| IP Address      | ReadIpAddress(...)          | `System.Net.IPAddress`        |
+| IPv4 Address    | ReadIpV4Address(...)        | `System.Net.IPAddress`        |  
+| IPv6 Address    | ReadIpV6Address(...)        | `System.Net.IPAddress`        |  
+| URL             | ReadUrl(...)                | `System.Net.Uri`              | 
+| Email Addres    | ReadEmail(...)              | `System.Net.Mail.MailAddress` |
+
+### Custom data types
+
+Custom data types can be parsed by providing custom parser function and optional custom validator. Parser is responsible for converting raw input string into usable format. Validator can be used to narrow down scope of allowed values.
+
+
+```c#
+var value = Console.Input.Read<Foo>(
+	prompt: "Enter value as `<key>:<value>`", 
+	required: false, 
+	defaultValue: null, 
+	parser: (rawValue) =>
+	{
+	    // Convert raw input to concrete type
+	    var values = rawValue.Split(':');
+	    if (values.Length == 2)
+	    {
+	        var output = new Foo
+	        {
+	            Key = values[0],
+	            Value = values[1],
+	        };
+	
+	        return ParseResult.AsSuccess(output);
+	    }
+	    return ParseResult.AsError<Foo>("Invalid value. Must be in `<key>:<value>` format");
+	},
+	validator: (foo) =>
+	{
+	    //Do additioanl validation here if needed
+	    if (string.IsNullOrWhiteSpace(foo.Value))
+	    {
+	        return "Value must not be empty";
+	    }
+	
+	    return null;
+	});
+
+Console.Output.WriteLine(ConsoleColor.Green, "You entered: '{0}'", value);
+```
+
+### Creating menus
+
+
 The base functionality of the library is to provide an easy way to create console menus. A `Menu` consists of `Options` that will be presented to a user for selection. An option contains a name, that will be displayed to the user, and a callback function to invoke if the user selects the option. Render the menu in the console using the `Display()` method.
 
 ```c#

@@ -11,7 +11,7 @@ namespace EasyConsoleNG.Demo.Pages
 
         public override void Display()
         {
-            var value = Input.ReadEnum<Fruit>("Select a fruit");
+            var value = Console.Input.ReadEnum<Fruit>("Select a fruit");
             Console.Output.WriteLine(ConsoleColor.Green, "You entered: '{0}'", value);
 
             Console.Input.ReadString("Press [Enter] to navigate back");

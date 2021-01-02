@@ -24,6 +24,8 @@ namespace EasyConsoleNG
 
         public static IPAddress ReadIpAddress(string prompt) => Console.Input.ReadIpAddress(prompt);
 
+        public static object ReadEnum(Type enumType, string prompt) => Console.Input.ReadEnum(enumType, prompt);
+
         public static TEnum ReadEnum<TEnum>(string prompt) where TEnum : struct, IConvertible, IComparable, IFormattable => Console.Input.ReadEnum<TEnum>(prompt);
     }
 }

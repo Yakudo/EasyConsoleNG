@@ -20,7 +20,7 @@ namespace EasyConsoleNG
 
         public string ReadString(string prompt, bool required = false, string defaultValue = null, Func<string, string> validator = null)
         {
-            return RunInputLoop(prompt, required, defaultValue, Parsers.ToString, validator);
+            return Read(prompt, required, defaultValue, Parsers.ToString, validator);
         } 
 
         #endregion String
@@ -29,7 +29,7 @@ namespace EasyConsoleNG
 
         public int ReadInt(string prompt, Func<int, string> validator, bool required = false, int defaultValue = default)
         {
-            return RunInputLoop(prompt, required, defaultValue, Parsers.ToInt, validator);
+            return Read(prompt, required, defaultValue, Parsers.ToInt, validator);
         }
 
         public int ReadInt(string prompt, bool required = false, int defaultValue = default, int min = int.MinValue, int max = int.MaxValue)
@@ -39,7 +39,7 @@ namespace EasyConsoleNG
 
         public int? ReadNullableInt(string prompt, Func<int?, string> validator, bool required = false, int? defaultValue = default)
         {
-            return RunInputLoop(prompt, required, defaultValue, Parsers.ToNullableInt, validator);
+            return Read(prompt, required, defaultValue, Parsers.ToNullableInt, validator);
         }
 
         public int? ReadNullableInt(string prompt, bool required = false, int? defaultValue = default, int min = int.MinValue, int max = int.MaxValue)
@@ -53,7 +53,7 @@ namespace EasyConsoleNG
 
         public float ReadFloat(string prompt, Func<float, string> validator, bool required = false, float defaultValue = default)
         {
-            return RunInputLoop(prompt, required, defaultValue, Parsers.ToFloat, validator);
+            return Read(prompt, required, defaultValue, Parsers.ToFloat, validator);
         }
 
         public float ReadFloat(string prompt, bool required = false, float defaultValue = default, float min = float.MinValue, float max = float.MaxValue)
@@ -63,7 +63,7 @@ namespace EasyConsoleNG
 
         public float? ReadNullableFloat(string prompt, Func<float?, string> validator, bool required = false, float? defaultValue = default)
         {
-            return RunInputLoop(prompt, required, defaultValue, Parsers.ToNullableFloat, validator);
+            return Read(prompt, required, defaultValue, Parsers.ToNullableFloat, validator);
         }
 
         public float? ReadNullableFloat(string prompt, bool required = false, float? defaultValue = default, float min = float.MinValue, float max = float.MaxValue)
@@ -77,7 +77,7 @@ namespace EasyConsoleNG
 
         public double ReadDouble(string prompt, Func<double, string> validator, bool required = false, double defaultValue = default)
         {
-            return RunInputLoop(prompt, required, defaultValue, Parsers.ToDouble, validator);
+            return Read(prompt, required, defaultValue, Parsers.ToDouble, validator);
         }
 
         public double ReadDouble(string prompt, bool required = false, double defaultValue = default, double min = double.MinValue, double max = double.MaxValue)
@@ -87,7 +87,7 @@ namespace EasyConsoleNG
 
         public double? ReadNullableDouble(string prompt, Func<double?, string> validator, bool required = false, double? defaultValue = default)
         {
-            return RunInputLoop(prompt, required, defaultValue, Parsers.ToNullableDouble, validator);
+            return Read(prompt, required, defaultValue, Parsers.ToNullableDouble, validator);
         }
 
         public double? ReadNullableDouble(string prompt, bool required = false, double? defaultValue = default, double min = double.MinValue, double max = double.MaxValue)
@@ -101,22 +101,22 @@ namespace EasyConsoleNG
 
         public DateTime ReadDateTime(string prompt, bool required = false, DateTime defaultValue = default, Func<DateTime, string> validator = null)
         {
-            return RunInputLoop(prompt, required, defaultValue, Parsers.ToDateTime, validator);
+            return Read(prompt, required, defaultValue, Parsers.ToDateTime, validator);
         }
 
         public DateTime? ReadNullableDateTime(string prompt, bool required = false, DateTime? defaultValue = default, Func<DateTime?, string> validator = null)
         {
-            return RunInputLoop(prompt, required, defaultValue, Parsers.ToNullableDateTime, validator);
+            return Read(prompt, required, defaultValue, Parsers.ToNullableDateTime, validator);
         }
 
         public DateTimeOffset ReadDateTimeOffset(string prompt, bool required = false, DateTimeOffset defaultValue = default, Func<DateTimeOffset, string> validator = null)
         {
-            return RunInputLoop(prompt, required, defaultValue, Parsers.ToDateTimeOffset, validator);
+            return Read(prompt, required, defaultValue, Parsers.ToDateTimeOffset, validator);
         }
 
         public DateTimeOffset? ReadNullableDateTimeOffset(string prompt, bool required = false, DateTimeOffset? defaultValue = default, Func<DateTimeOffset?, string> validator = null)
         {
-            return RunInputLoop(prompt, required, defaultValue, Parsers.ToNullableDateTimeOffset, validator);
+            return Read(prompt, required, defaultValue, Parsers.ToNullableDateTimeOffset, validator);
         }
 
         #endregion Datetime
@@ -125,7 +125,7 @@ namespace EasyConsoleNG
 
         public Uri ReadUrl(string prompt, bool required = false, UriKind uriKind = UriKind.Absolute, Uri defaultValue = default, Func<Uri, string> validator = null)
         {
-            return RunInputLoop(prompt, required, defaultValue, (v) => Parsers.ToUri(v, uriKind), validator);
+            return Read(prompt, required, defaultValue, (v) => Parsers.ToUri(v, uriKind), validator);
         }
 
         #endregion Url
@@ -134,17 +134,17 @@ namespace EasyConsoleNG
 
         public IPAddress ReadIpAddress(string prompt, bool required = false, IPAddress defaultValue = default, Func<IPAddress, string> validator = null)
         {
-            return RunInputLoop(prompt, required, defaultValue, Parsers.ToIpAddress, validator);
+            return Read(prompt, required, defaultValue, Parsers.ToIpAddress, validator);
         }
 
         public IPAddress ReadIpV4Address(string prompt, bool required = false, IPAddress defaultValue = default, Func<IPAddress, string> validator = null)
         {
-            return RunInputLoop(prompt, required, defaultValue, Parsers.ToIpV4Address, validator);
+            return Read(prompt, required, defaultValue, Parsers.ToIpV4Address, validator);
         }
 
         public IPAddress ReadIpV6Address(string prompt, bool required = false, IPAddress defaultValue = default, Func<IPAddress, string> validator = null)
         {
-            return RunInputLoop(prompt, required, defaultValue, Parsers.ToIpV6Address, validator);
+            return Read(prompt, required, defaultValue, Parsers.ToIpV6Address, validator);
         }
 
         #endregion IP Address
@@ -153,28 +153,32 @@ namespace EasyConsoleNG
 
         public MailAddress ReadEmail(string prompt, bool required = false, MailAddress defaultValue = default, Func<MailAddress, string> validator = null)
         {
-            return RunInputLoop(prompt, required, defaultValue, Parsers.ToEmail, validator);
+            return Read(prompt, required, defaultValue, Parsers.ToEmail, validator);
         }
 
         #endregion Email
 
         #region Enum
 
-        public TEnum ReadEnum<TEnum>(string prompt) where TEnum : struct, IConvertible, IComparable, IFormattable
+        public object ReadEnum(Type enumType, string prompt)
         {
-            var type = typeof(TEnum);
-
-            if (!type.IsEnum) throw new ArgumentException("TEnum must be an enumerated type");
+            if (!enumType.IsEnum) throw new ArgumentException("Type must be an enumerated type");
 
             _console.WriteLine(prompt);
-            var menu = _console.Select<TEnum>(null);
+            var menu = _console.Select<object>(null);
 
-            foreach (var value in Enum.GetValues(type))
+            foreach (var value in Enum.GetValues(enumType))
             {
-                menu.Add(Enum.GetName(type, value), (TEnum)value);
+                menu.Add(Enum.GetName(enumType, value), (object) value);
             }
             return menu.Display();
         }
+
+        public TEnum ReadEnum<TEnum>(string prompt) where TEnum : struct, IConvertible, IComparable, IFormattable
+        {
+            return (TEnum) ReadEnum(typeof(TEnum), prompt);
+        }
+
 
         #endregion Enum
 
@@ -201,7 +205,7 @@ namespace EasyConsoleNG
 
         #region Utils
 
-        protected T RunInputLoop<T>(string prompt, bool required, T defaultValue, Parser<T> converter, Func<T, string> validator)
+        public T Read<T>(string prompt, bool required, T defaultValue, Parser<T> parser, Func<T, string> validator = null)
         {
             while (true)
             {
@@ -218,7 +222,7 @@ namespace EasyConsoleNG
                         continue;
                     }
                 }
-                var result = converter(rawValue);
+                var result = parser(rawValue);
                 if (result.Error != null)
                 {
                     _console.WriteLine(result.Error);

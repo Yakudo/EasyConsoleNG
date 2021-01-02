@@ -12,6 +12,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Include="Pages\CustomInputDemo.cs" />
     <Compile Include="Pages\InputEmailDemoPage.cs" />
     <Compile Include="Pages\InputIPAddressDemoPage.cs" />
     <Compile Include="Pages\InputMenuPage.cs" />
