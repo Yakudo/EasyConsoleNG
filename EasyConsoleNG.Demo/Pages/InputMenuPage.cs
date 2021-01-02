@@ -9,6 +9,7 @@ namespace EasyConsoleNG.Demo.Pages
         {
             AddOption("Base input", () => Menu.Push(new InputDemoPage(Menu)));
             AddOption("String", () => Menu.Push(new InputStringDemoPage(Menu)));
+            AddOption("Boolean", () => Menu.Push(new InputBoolDemoPage(Menu)));
             AddOption("Numbers (Int/Float/Double)", () => Menu.Push(new InputNumberDemoPage(Menu)));
             AddOption("Enum", () => Menu.Push(new InputEnumDemoPage(Menu)));
             AddOption("IP Address", () => Menu.Push(new InputIPAddressDemoPage(Menu)));

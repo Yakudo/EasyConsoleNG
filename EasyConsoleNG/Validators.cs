@@ -34,6 +34,34 @@ namespace EasyConsoleNG
             };
         }
 
+        public static Func<long, string> IsLongInRange(long min, long max)
+        {
+            return (value) =>
+            {
+                var checkMin = min != long.MinValue;
+                var checkMax = max != long.MaxValue;
+
+                var tooSmall = checkMin && value < min;
+                var tooLarge = checkMax && value > max;
+
+                return ValidateRange(checkMin, checkMax, min, max, tooSmall, tooLarge);
+            };
+        }
+
+        public static Func<long?, string> IsNullableLongInRange(long min, long max)
+        {
+            return (value) =>
+            {
+                var checkMin = min != long.MinValue;
+                var checkMax = max != long.MaxValue;
+
+                var tooSmall = checkMin && value < min;
+                var tooLarge = checkMax && value > max;
+
+                return ValidateRange(checkMin, checkMax, min, max, tooSmall, tooLarge);
+            };
+        }
+
         public static Func<float, string> IsFloatInRange(float min, float max)
         {
             return (value) =>

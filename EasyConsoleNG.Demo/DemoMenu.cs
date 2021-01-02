@@ -1,5 +1,4 @@
-﻿using System;
-using EasyConsoleNG.Demo.Pages;
+﻿using EasyConsoleNG.Demo.Pages;
 using EasyConsoleNG.Menus;
 
 namespace EasyConsoleNG.Demo
@@ -21,6 +20,5 @@ namespace EasyConsoleNG.Demo
             AddPage(DemoPages.SelectDemo, new SelectDemoPage(this));
             AddPage(DemoPages.CustomInputDemo, new CustomInputDemo(this));
         }
-
     }
 }

@@ -15,6 +15,16 @@ namespace EasyConsoleNG
             return new ParseResult<string>(null, rawValue);
         }
 
+        public static ParseResult<bool> ToBool(string rawValue, IBoolOption option)
+        {
+            var value = rawValue.ToLowerInvariant();
+
+            if (option.MatchesTrue(value) && !option.MatchesFalse(value)) return ParseResult.AsSuccess(true);
+            if (!option.MatchesTrue(value) && option.MatchesFalse(value)) return ParseResult.AsSuccess(false);
+
+            return ParseResult.AsError<bool>($"Please enter a {option}.");
+        }
+
         public static ParseResult<int> ToInt(string rawValue)
         {
             if(int.TryParse(rawValue, out var value))
@@ -33,6 +43,27 @@ namespace EasyConsoleNG
             }
 
             return ParseResult.AsError<int?>("Please enter a valid integer.");
+        }
+
+
+        public static ParseResult<long> ToLong(string rawValue)
+        {
+            if (long.TryParse(rawValue, out var value))
+            {
+                return ParseResult.AsSuccess(value);
+            }
+
+            return ParseResult.AsError<long>("Please enter a valid integer.");
+        }
+
+        public static ParseResult<long?> ToNullableLong(string rawValue)
+        {
+            if (long.TryParse(rawValue, out var value))
+            {
+                return ParseResult.AsSuccess<long?>(value);
+            }
+
+            return ParseResult.AsError<long?>("Please enter a valid integer.");
         }
 
         public static ParseResult<float> ToFloat(string rawValue)

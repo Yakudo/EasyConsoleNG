@@ -21,9 +21,19 @@ namespace EasyConsoleNG
         public string ReadString(string prompt, bool required = false, string defaultValue = null, Func<string, string> validator = null)
         {
             return Read(prompt, required, defaultValue, Parsers.ToString, validator);
-        } 
+        }
 
         #endregion String
+
+        #region Bool
+
+        public bool ReadBool(string prompt, IBoolOption option = null, bool required = false, bool defaultValue = default, Func<bool, string> validator = null)
+        {
+            option = option ?? BoolOptions.All;
+            return Read(prompt, required, defaultValue, (v) => Parsers.ToBool(v, option), validator);
+        }
+
+        #endregion Bool
 
         #region Int
 
@@ -48,6 +58,30 @@ namespace EasyConsoleNG
         }
 
         #endregion Int
+
+        #region Long
+
+        public long ReadLong(string prompt, Func<long, string> validator, bool required = false, long defaultValue = default)
+        {
+            return Read(prompt, required, defaultValue, Parsers.ToLong, validator);
+        }
+
+        public long ReadLong(string prompt, bool required = false, long defaultValue = default, long min = long.MinValue, long max = long.MaxValue)
+        {
+            return ReadLong(prompt, Validators.IsLongInRange(min, max), required, defaultValue);
+        }
+
+        public long? ReadNullableLong(string prompt, Func<long?, string> validator, bool required = false, long? defaultValue = default)
+        {
+            return Read(prompt, required, defaultValue, Parsers.ToNullableLong, validator);
+        }
+
+        public long? ReadNullableLong(string prompt, bool required = false, long? defaultValue = default, long min = long.MinValue, long max = long.MaxValue)
+        {
+            return ReadNullableLong(prompt, Validators.IsNullableLongInRange(min, max), required, defaultValue);
+        }
+
+        #endregion Long
 
         #region Float
 
