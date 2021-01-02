@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using EasyConsoleNG.Menus;
+﻿using EasyConsoleNG.Menus;
+using System;
 
 namespace EasyConsoleNG.Demo.Pages
 {
@@ -26,9 +23,9 @@ namespace EasyConsoleNG.Demo.Pages
         public override void Display()
         {
             var value = Console.Input.Read<Foo>(
-                prompt: "Enter value as `<key>:<value>`", 
-                required: false, 
-                defaultValue: null, 
+                prompt: "Enter value as `<key>:<value>`",
+                required: false,
+                defaultValue: null,
                 parser: ParseFoo,
                 validator: ValidateFoo);
             Console.Output.WriteLine(ConsoleColor.Green, "You entered: '{0}'", value);
@@ -42,7 +39,7 @@ namespace EasyConsoleNG.Demo.Pages
             // Convert raw input to concrete type
 
             var values = rawValue.Split(':');
-            if(values.Length == 2)
+            if (values.Length == 2)
             {
                 var value = new Foo
                 {
@@ -58,7 +55,7 @@ namespace EasyConsoleNG.Demo.Pages
         private string ValidateFoo(Foo value)
         {
             //Do additioanl validation here if needed
-            if(string.IsNullOrWhiteSpace(value.Value))
+            if (string.IsNullOrWhiteSpace(value.Value))
             {
                 return "Value must not be empty";
             }

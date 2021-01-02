@@ -1,5 +1,4 @@
-﻿using System;
-using EasyConsoleNG.Menus;
+﻿using EasyConsoleNG.Menus;
 
 namespace EasyConsoleNG.Demo.Pages
 {
@@ -15,7 +14,7 @@ namespace EasyConsoleNG.Demo.Pages
             AddOption("IP Address", () => Menu.Push(new InputIPAddressDemoPage(Menu)));
             AddOption("Email address", () => Menu.Push(new InputEmailDemoPage(Menu)));
             AddOption("URL", () => Menu.Push(new InputUrlDemoPage(Menu)));
-            
+
             AddBackOption("Back");
         }
     }

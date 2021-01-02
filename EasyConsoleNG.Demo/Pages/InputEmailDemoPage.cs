@@ -1,6 +1,5 @@
-﻿using System;
-using System.Net;
-using EasyConsoleNG.Menus;
+﻿using EasyConsoleNG.Menus;
+using System;
 
 namespace EasyConsoleNG.Demo.Pages
 {
@@ -18,6 +17,5 @@ namespace EasyConsoleNG.Demo.Pages
             Input.ReadString("Press [Enter] to navigate back");
             Menu.Pop();
         }
-
     }
 }

@@ -6,7 +6,6 @@ namespace EasyConsoleNG.Demo
     {
         private static void Main(string[] args)
         {
-
             //var console = new EasyConsole();
             //var value = console.Input.ReadString("Enter name");
             //console.Output.WriteLine("The value is: {0}", value);
