@@ -8,6 +8,7 @@ namespace EasyConsoleNG.Demo
     {
         public static string MainMenu = nameof(MainMenu);
         public static string InputMenu = nameof(InputMenu);
+        public static string SelectDemo = nameof(SelectDemo);
     }
 
     internal class DemoMenu : Menu
@@ -16,14 +17,7 @@ namespace EasyConsoleNG.Demo
         {
             AddPage(DemoPages.MainMenu, new MainPage(this));
             AddPage(DemoPages.InputMenu, new InputMenuPage(this));
-            //AddPage(new Page1(this));
-            //AddPage(new Page1A(this));
-            //AddPage(new Page1Ai(this));
-            //AddPage(new Page1B(this));
-            //AddPage(new Page2(this));
-            //AddPage(new InputPage(this));
-
-            //SetPage<MainPage>();
+            AddPage(DemoPages.SelectDemo, new SelectDemoPage(this));
         }
 
     }

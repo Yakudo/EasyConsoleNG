@@ -6,14 +6,15 @@ namespace EasyConsoleNG.Demo.Pages
     public class InputMenuPage : SelectPage
     {
         public InputMenuPage(Menu menu) : base(menu)
-        //: base(menu, "Main Page",
-        //    new SelectOption<Action>("Page 1", () => program.NavigateTo<Page1>()),
-        //    new Option<Action>("Page 2", () => program.NavigateTo<Page2>()),
-        //    new Option<Action>("Input", () => program.NavigateTo<InputPage>()),
         {
-
-            AddOption("String", () => Menu.Push(new InputStringPage(Menu)));
-            AddOption("Numbers (Int/Float/Double)", () => Menu.Push(new InputNumberPage(Menu)));
+            AddOption("Base input", () => Menu.Push(new InputDemoPage(Menu)));
+            AddOption("String", () => Menu.Push(new InputStringDemoPage(Menu)));
+            AddOption("Numbers (Int/Float/Double)", () => Menu.Push(new InputNumberDemoPage(Menu)));
+            AddOption("Enum", () => Menu.Push(new InputEnumDemoPage(Menu)));
+            AddOption("IP Address", () => Menu.Push(new InputIPAddressDemoPage(Menu)));
+            AddOption("Email address", () => Menu.Push(new InputEmailDemoPage(Menu)));
+            AddOption("URL", () => Menu.Push(new InputUrlDemoPage(Menu)));
+            
             AddBackOption("Back");
         }
     }

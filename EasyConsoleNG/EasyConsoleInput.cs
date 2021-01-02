@@ -21,7 +21,7 @@ namespace EasyConsoleNG
         public string ReadString(string prompt, bool required = false, string defaultValue = null, Func<string, string> validator = null)
         {
             return RunInputLoop(prompt, required, defaultValue, Parsers.ToString, validator);
-        }
+        } 
 
         #endregion String
 
@@ -34,16 +34,7 @@ namespace EasyConsoleNG
 
         public int ReadInt(string prompt, bool required = false, int defaultValue = default, int min = int.MinValue, int max = int.MaxValue)
         {
-            return ReadInt(prompt, (value) =>
-            {
-                var checkMin = min != int.MinValue;
-                var checkMax = max != int.MaxValue;
-
-                var tooSmall = checkMin && value < min;
-                var tooLarge = checkMax && value > max;
-
-                return ValidateRange(checkMin, checkMax, min, max, tooSmall, tooLarge);
-            }, required, defaultValue);
+            return ReadInt(prompt, Validators.IsIntInRange(min, max), required, defaultValue);
         }
 
         public int? ReadNullableInt(string prompt, Func<int?, string> validator, bool required = false, int? defaultValue = default)
@@ -53,16 +44,7 @@ namespace EasyConsoleNG
 
         public int? ReadNullableInt(string prompt, bool required = false, int? defaultValue = default, int min = int.MinValue, int max = int.MaxValue)
         {
-            return ReadNullableInt(prompt, (value) =>
-            {
-                var checkMin = min != int.MinValue;
-                var checkMax = max != int.MaxValue;
-
-                var tooSmall = checkMin && value < min;
-                var tooLarge = checkMax && value > max;
-
-                return ValidateRange(checkMin, checkMax, min, max, tooSmall, tooLarge);
-            }, required, defaultValue);
+            return ReadNullableInt(prompt, Validators.IsNullableIntInRange(min, max), required, defaultValue);
         }
 
         #endregion Int
@@ -76,16 +58,7 @@ namespace EasyConsoleNG
 
         public float ReadFloat(string prompt, bool required = false, float defaultValue = default, float min = float.MinValue, float max = float.MaxValue)
         {
-            return ReadFloat(prompt, (value) =>
-            {
-                var checkMin = min != float.MinValue;
-                var checkMax = max != float.MaxValue;
-
-                var tooSmall = checkMin && value < min;
-                var tooLarge = checkMax && value > max;
-
-                return ValidateRange(checkMin, checkMax, min, max, tooSmall, tooLarge);
-            }, required, defaultValue);
+            return ReadFloat(prompt, Validators.IsFloatInRange(min, max), required, defaultValue);
         }
 
         public float? ReadNullableFloat(string prompt, Func<float?, string> validator, bool required = false, float? defaultValue = default)
@@ -95,16 +68,7 @@ namespace EasyConsoleNG
 
         public float? ReadNullableFloat(string prompt, bool required = false, float? defaultValue = default, float min = float.MinValue, float max = float.MaxValue)
         {
-            return ReadNullableFloat(prompt, (value) =>
-            {
-                var checkMin = min != float.MinValue;
-                var checkMax = max != float.MaxValue;
-
-                var tooSmall = checkMin && value < min;
-                var tooLarge = checkMax && value > max;
-
-                return ValidateRange(checkMin, checkMax, min, max, tooSmall, tooLarge);
-            }, required, defaultValue);
+            return ReadNullableFloat(prompt, Validators.IsNullableFloatInRange(min, max), required, defaultValue);
         }
 
         #endregion Float
@@ -118,16 +82,7 @@ namespace EasyConsoleNG
 
         public double ReadDouble(string prompt, bool required = false, double defaultValue = default, double min = double.MinValue, double max = double.MaxValue)
         {
-            return ReadDouble(prompt, (value) =>
-            {
-                var checkMin = min != double.MinValue;
-                var checkMax = max != double.MaxValue;
-
-                var tooSmall = checkMin && value < min;
-                var tooLarge = checkMax && value > max;
-
-                return ValidateRange(checkMin, checkMax, min, max, tooSmall, tooLarge);
-            }, required, defaultValue);
+            return ReadDouble(prompt, Validators.IsDoubleInRange(min, max), required, defaultValue);
         }
 
         public double? ReadNullableDouble(string prompt, Func<double?, string> validator, bool required = false, double? defaultValue = default)
@@ -137,16 +92,7 @@ namespace EasyConsoleNG
 
         public double? ReadNullableDouble(string prompt, bool required = false, double? defaultValue = default, double min = double.MinValue, double max = double.MaxValue)
         {
-            return ReadNullableDouble(prompt, (value) =>
-            {
-                var checkMin = min != double.MinValue;
-                var checkMax = max != double.MaxValue;
-
-                var tooSmall = checkMin && value < min;
-                var tooLarge = checkMax && value > max;
-
-                return ValidateRange(checkMin, checkMax, min, max, tooSmall, tooLarge);
-            }, required, defaultValue);
+            return ReadNullableDouble(prompt, Validators.IsNullableDoubleInRange(min, max), required, defaultValue);
         }
 
         #endregion Double
@@ -221,7 +167,7 @@ namespace EasyConsoleNG
             if (!type.IsEnum) throw new ArgumentException("TEnum must be an enumerated type");
 
             _console.WriteLine(prompt);
-            var menu = _console.Select<TEnum>();
+            var menu = _console.Select<TEnum>(null);
 
             foreach (var value in Enum.GetValues(type))
             {
@@ -244,7 +190,8 @@ namespace EasyConsoleNG
 
         public T ReadOption<T>(string prompt, IEnumerable<SelectOption<T>> options, bool required = false, T defaultValue = default)
         {
-            var menu = _console.Select(options, required, defaultValue);
+            _console.WriteLine(prompt);
+            var menu = _console.Select(null, options, required, defaultValue);
             return menu.Display();
         }
 
@@ -301,23 +248,6 @@ namespace EasyConsoleNG
                 prompt = $"{prompt} (default: {defaultValue})";
             }
             _console.Output.DisplayPrompt(prompt);
-        }
-
-        private static string ValidateRange(bool checkMin, bool checkMax, double min, double max, bool tooSmall, bool tooLarge)
-        {
-            if (checkMin && checkMax && (tooSmall || tooLarge))
-            {
-                return $"Value must be between {min} and {max} (inclusive).";
-            }
-            else if (tooSmall)
-            {
-                return $"Value must not be greater than or equal to {min}.";
-            }
-            else if (tooLarge)
-            {
-                return $"Value must not be less than or equal to {max}.";
-            }
-            return null;
         }
 
         #endregion Utils

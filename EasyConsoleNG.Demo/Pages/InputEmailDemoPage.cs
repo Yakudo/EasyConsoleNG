@@ -1,21 +1,18 @@
 ﻿using System;
+using System.Net;
 using EasyConsoleNG.Menus;
 
 namespace EasyConsoleNG.Demo.Pages
 {
-    public class InputStringPage : Page
+    public class InputEmailDemoPage : Page
     {
-        private EasyConsole Console = new EasyConsole();
-
-        public InputStringPage(Menu menu) : base(menu)
+        public InputEmailDemoPage(Menu menu) : base(menu)
         {
         }
 
-        public override string GetTitle() => "Input string demo";
-
         public override void Display()
         {
-            var value = Console.Input.ReadString("Enter a string");
+            var value = Console.Input.ReadEmail("Enter an email address");
             Console.Output.WriteLine(ConsoleColor.Green, "You entered: '{0}'", value);
 
             Input.ReadString("Press [Enter] to navigate back");

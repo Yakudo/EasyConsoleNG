@@ -43,6 +43,7 @@ namespace EasyConsoleNG
         }
 
         public void ResetColor() => Console.ResetColor();
+        public void Clear() => Console.Clear();
 
         public string ReadLine() => InputReader.ReadLine();
         public Task<string> ReadLineAsync() => InputReader.ReadLineAsync();
@@ -52,7 +53,8 @@ namespace EasyConsoleNG
         public void WriteLine(string format, object[] args) => OutputWriter.WriteLine(format, args);
         public Task WriteLineAsync(string format, object[] args) => OutputWriter.WriteLineAsync(string.Format(format, args));
 
-        public Select<T> Select<T>(params SelectOption<T>[] options) => new Select<T>(this, options);
-        public Select<T> Select<T>(IEnumerable<SelectOption<T>> options, bool required = false, T defaultValue = default) => new Select<T>(this, options, required, defaultValue);
+        public Select<T> Select<T>(string prompt, params SelectOption<T>[] options) => new Select<T>(this, prompt, options);
+
+        public Select<T> Select<T>(string prompt, IEnumerable<SelectOption<T>> options, bool required = false, T defaultValue = default) => new Select<T>(this, prompt, options, required, defaultValue);
     }
 }

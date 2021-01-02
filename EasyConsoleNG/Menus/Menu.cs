@@ -7,9 +7,16 @@ namespace EasyConsoleNG.Menus
 {
     public class Menu
     {
+        public EasyConsole Console { get; }
+
         public string InitialPage { get; set; }
         public Stack<IMenuPage> History { get; private set; } = new Stack<IMenuPage>();
         public Dictionary<string, IMenuPage> Pages { get; set; } = new Dictionary<string, IMenuPage>();
+        
+        public Menu(EasyConsole console = null)
+        {
+            Console = console ?? new EasyConsole();
+        }
 
         public void Push(string name)
         {

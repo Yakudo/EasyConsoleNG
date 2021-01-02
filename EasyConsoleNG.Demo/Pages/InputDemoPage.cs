@@ -3,25 +3,21 @@ using EasyConsoleNG.Menus;
 
 namespace EasyConsoleNG.Demo.Pages
 {
-    public class InputNumberPage : Page
+    public class InputDemoPage : Page
     {
-        private EasyConsole Console = new EasyConsole();
-
-        public InputNumberPage(Menu menu) : base(menu)
+        public InputDemoPage(Menu menu) : base(menu)
         {
         }
 
-        public override string GetTitle() => "Input number demo";
-
         public override void Display()
         {
-            var value = Console.Input.ReadInt("Enter an integer");
+            var value = Console.Input.ReadString("Enter a string");
             Console.Output.WriteLine(ConsoleColor.Green, "You entered: '{0}'", value);
 
-            var value2 = Console.Input.ReadInt("Enter an integer in range (0, 10) ", min: 0, max: 10);
+            var value2 = Console.Input.ReadString("Enter a required string", required: true);
             Console.Output.WriteLine(ConsoleColor.Green, "You entered: '{0}'", value2);
 
-            var value3 = Console.Input.ReadFloat("Enter an float/double");
+            var value3 = Console.Input.ReadString("Enter a required string with default", defaultValue: "foo");
             Console.Output.WriteLine(ConsoleColor.Green, "You entered: '{0}'", value3);
 
             Input.ReadString("Press [Enter] to navigate back");

@@ -6,17 +6,19 @@ namespace EasyConsoleNG.Selects
 {
     public class Select<T>
     {
-        private readonly EasyConsole _console;
+        private EasyConsole Console { get; set; }
+        private string  Prompt { get; set; }
 
         private List<SelectOption<T>> Options { get; set; }
         public bool Required { get; set; }
         public T DefaultValue { get; set; }
 
-        public Select(EasyConsole console = null, IEnumerable<SelectOption<T>> options = null, bool required = false, T defaultValue = default)
+        public Select(EasyConsole console = null, string prompt = null, IEnumerable<SelectOption<T>> options = null, bool required = false, T defaultValue = default)
         {
-            _console = console ?? EasyConsole.Instance;
+            Console = console ?? EasyConsole.Instance;
+            Prompt = prompt ?? "Choose an option";
 
-            if(options != null)
+            if (options != null)
             {
                 Options = options.ToList();
             }
@@ -35,26 +37,26 @@ namespace EasyConsoleNG.Selects
             {
                 for (var i = 0; i < Options.Count; i++)
                 {
-                    _console.Output.WriteLine("{0}. {1}", i + 1, Options[i].Name);
+                    Console.Output.WriteLine("{0}. {1}", i + 1, Options[i].Name);
                 }
 
                 int idx;
 
                 if (Required)
                 {
-                    var choice = _console.Input.ReadInt("Choose an option", min: 1, max: Options.Count, defaultValue: 1, required: true);
+                    var choice = Console.Input.ReadInt(Prompt, min: 1, max: Options.Count, defaultValue: 1, required: true);
                     idx = choice - 1;
                 }
                 else
                 {
-                    var choice = _console.Input.ReadNullableInt("Choose an option", min: 1, max: Options.Count, defaultValue: null, required: false);
+                    var choice = Console.Input.ReadNullableInt(Prompt, min: 1, max: Options.Count, defaultValue: null, required: false);
                     if (choice == null) return DefaultValue;
                     idx = choice.Value - 1;
                 }
 
                 if (idx < 0 || idx > Options.Count)
                 {
-                    _console.Output.WriteLine($"Invalid option.");
+                    Console.Output.WriteLine($"Invalid option.");
 
                     continue;
                 }

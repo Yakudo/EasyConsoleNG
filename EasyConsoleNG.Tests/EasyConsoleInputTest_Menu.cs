@@ -27,11 +27,11 @@ namespace EasyConsoleNG.Tests
         {
             console.SetupInput("2\n");
 
-            var value = console.Input.ReadOption("Value", "A", "B", "C");
+            var value = console.Input.ReadOption("Select value:", "A", "B", "C");
 
             value.Should().Be("B");
 
-            console.CapturedOutput.Should().Be("1. A\n2. B\n3. C\nChoose an option: ");
+            console.CapturedOutput.Should().Be("Select value:\n1. A\n2. B\n3. C\nChoose an option: ");
         }
 
         [Test]
@@ -39,11 +39,11 @@ namespace EasyConsoleNG.Tests
         {
             console.SetupInput("5\n2\n");
 
-            var value = console.Input.ReadOption("Value", "A", "B", "C");
+            var value = console.Input.ReadOption("Select value:", "A", "B", "C");
 
             value.Should().Be("B");
 
-            console.CapturedOutput.Should().Be("1. A\n2. B\n3. C\nChoose an option: Value must be between 1 and 3 (inclusive).\nChoose an option: ");
+            console.CapturedOutput.Should().Be("Select value:\n1. A\n2. B\n3. C\nChoose an option: Value must be between 1 and 3 (inclusive).\nChoose an option: ");
         }
 
         [Test]
@@ -51,11 +51,11 @@ namespace EasyConsoleNG.Tests
         {
             console.SetupInput("\n");
 
-            var value = console.Input.ReadOption("Value", new[] { "A", "B", "C" }, defaultValue: "C");
+            var value = console.Input.ReadOption("Select value:", new[] { "A", "B", "C" }, defaultValue: "C");
 
             value.Should().Be("C");
 
-            console.CapturedOutput.Should().Be("1. A\n2. B\n3. C\nChoose an option: ");
+            console.CapturedOutput.Should().Be("Select value:\n1. A\n2. B\n3. C\nChoose an option: ");
 
         }
     }

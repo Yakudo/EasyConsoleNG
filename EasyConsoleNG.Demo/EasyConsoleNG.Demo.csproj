@@ -12,10 +12,16 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Include="Pages\InputEmailDemoPage.cs" />
+    <Compile Include="Pages\InputIPAddressDemoPage.cs" />
     <Compile Include="Pages\InputMenuPage.cs" />
-    <Compile Include="Pages\InputNumberPage.cs" />
-    <Compile Include="Pages\InputStringPage.cs" />
+    <Compile Include="Pages\InputNumberDemoPage.cs" />
+    <Compile Include="Pages\InputStringDemoPage.cs" />
+    <Compile Include="Pages\InputUrlDemoPage.cs" />
     <Compile Include="Pages\MainPage.cs" />
+    <Compile Include="Pages\InputEnumDemoPage.cs" />
+    <Compile Include="Pages\InputDemoPage.cs" />
+    <Compile Include="Pages\SelectDemoPage.cs" />
   </ItemGroup>
 
   <ItemGroup>

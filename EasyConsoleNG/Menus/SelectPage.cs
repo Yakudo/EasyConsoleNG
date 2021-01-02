@@ -18,11 +18,6 @@ namespace EasyConsoleNG.Menus
            }
         }
 
-        public override string GetTitle()
-        {
-            throw new NotImplementedException();
-        }
-
         public void AddOption(string name, Action callback)
         {
             Select.Add(new SelectOption<Action>(name, callback));
@@ -41,14 +36,14 @@ namespace EasyConsoleNG.Menus
 
         public override void Display()
         {
-            //Console.WriteLine(Title);
-            //Console.WriteLine("---");
-
-            //if (Program.NavigationEnabled && !Select.Contains("Go back"))
-            //    Select.Add("Go back", () => { Program.NavigateBack(); });
-
-            var callback = Select.Display();
-            callback();
+            do {
+                var callback = Select.Display();
+                if (callback != null)
+                {
+                    callback();
+                    return;
+                }
+            } while (true);
         }
     }
 }
