@@ -92,7 +92,7 @@ namespace EasyConsoleNG.Tests
             var value = console.Input.ReadBool("Value");
             value.Should().Be(true);
 
-            console.CapturedOutput.Should().Be("Value (default: False): Please enter a 'Enabled' or 'Disabled'.\nValue (default: False): ");
+            console.CapturedOutput.Should().Be("Value (default: False): Please enter a 'True' or 'False'.\nValue (default: False): ");
         }
     }
 }
