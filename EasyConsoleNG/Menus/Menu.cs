@@ -18,21 +18,40 @@ namespace EasyConsoleNG.Menus
             Console = console ?? new EasyConsole();
         }
 
+        public void Push(IMenuPage page)
+        {
+            History.Push(page);
+        }
+
         public void Push(string name)
         {
             var page = GetPage(name);
             Push(page);
         }
 
-        public void Push(IMenuPage page)
+        public void Push<T>() where T : IMenuPage
         {
-            History.Push(page);
+            var page = CreatePage<T>();
+            Push(page);
         }
+
 
         public void Replace(IMenuPage page)
         {
             Pop();
             Push(page);
+        }
+
+        public void Replace(string name)
+        {
+            var page = GetPage(name);
+            Replace(page);
+        }
+
+        public void Replace<T>() where T : IMenuPage
+        {
+            var page = CreatePage<T>();
+            Replace(page);
         }
 
         public void Pop()
@@ -55,6 +74,12 @@ namespace EasyConsoleNG.Menus
             InitialPage = InitialPage ?? name;
         }
 
+        public void AddPage<T>(string name) where T : IMenuPage
+        {
+            var page = CreatePage<T>();
+            AddPage(name, page);
+        }
+
         protected IMenuPage CurrentPage
         {
             get
@@ -63,7 +88,12 @@ namespace EasyConsoleNG.Menus
             }
         }
 
-        public virtual void Run()
+        public IMenuPage CreatePage<T>() where T : IMenuPage
+        {
+            return (IMenuPage)Activator.CreateInstance(typeof(T), new[] { this });
+        }
+
+        public virtual void Display()
         {
             History.Clear();
             var page = GetPage(InitialPage);

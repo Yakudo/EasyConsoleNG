@@ -11,7 +11,7 @@ namespace EasyConsoleNG.Demo
         public static string CustomInputDemo = nameof(CustomInputDemo);
     }
 
-    internal class DemoMenu : Menu
+    public class DemoMenu : Menu
     {
         public DemoMenu() : base()
         {
