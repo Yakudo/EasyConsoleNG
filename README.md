@@ -18,7 +18,7 @@ Console.Output.WriteLine(ConsoleColor.Green, "You entered: '{0}'", value);
 
 ![Menu Demo](Docs/Images/string_input1.gif)
 
-You can mark input's as required using `required: true` parameter. This would prevent from entering an empty value. 
+By default any input will be accepted, even empty one. You can mark input as required using `required: true` parameter. This would prevent from entering an empty value and will continue to prompt the user untill valid value is provided.
 
 ```c#
 var value2 = Console.Input.ReadString("Enter a required string", required: true);
@@ -70,7 +70,6 @@ Different data types are handled by corresponding `Read` methods:
 
 Custom data types can be parsed by providing custom parser function and optional custom validator. Parser is responsible for converting raw input string into usable format. Validator can be used to narrow down scope of allowed values.
 
-
 ```c#
 var value = Console.Input.Read<Foo>(
     prompt: "Enter value as `<key>:<value>`", 
@@ -108,8 +107,11 @@ Console.Output.WriteLine(ConsoleColor.Green, "You entered: '{0}'", value);
 
 ### Creating menus
 
+This library provide an easy way to create console menus. 
 
-This library provide an easy way to create console menus. A `Menu` consists of `Pages` that will be presented to a user for selection. Each page displays it's content using a `Display()` method. See the Demo project in the repository for complete example.
+![Menu Demo](Docs/Images/menu1.gif)
+
+A `Menu` consists of `Pages` that will be presented to a user for selection. Each page displays it's content using a `Display()` method. See the Demo project in the repository for complete example.
 
 Simple page looks like that:
 

@@ -13,12 +13,18 @@ namespace EasyConsoleNG.Demo.Pages
         {
             var value = Console.Input.ReadString("Enter a string");
             Console.Output.WriteLine(ConsoleColor.Green, "You entered: '{0}'", value);
+            Console.ReadLine();
+            Console.Clear();
 
-            var value2 = Console.Input.ReadString("Enter a required string", required: true);
+            var value2 = Console.Input.ReadString("Enter a string", required: true);
             Console.Output.WriteLine(ConsoleColor.Green, "You entered: '{0}'", value2);
+            Console.ReadLine();
+            Console.Clear();
 
-            var value3 = Console.Input.ReadString("Enter a required string with default", defaultValue: "foo");
+            var value3 = Console.Input.ReadString("Enter a string", defaultValue: "foo");
             Console.Output.WriteLine(ConsoleColor.Green, "You entered: '{0}'", value3);
+            Console.ReadLine();
+            Console.Clear();
 
             Input.ReadString("Press [Enter] to navigate back");
             Menu.Pop();
