@@ -1,6 +1,6 @@
 # EasyConsoleNG [![NuGet](https://img.shields.io/nuget/v/EasyConsoleNG.svg)](https://www.nuget.org/packages/EasyConsoleNG/)
 
-EasyConsoleNG is a loose rework of [EasyConsole](https://github.com/splttingatms/EasyConsole) - a library to make it easier for developers to build a simple forms handling for a .NET console application. 
+EasyConsoleNG is a loose rework of [EasyConsole](https://github.com/splttingatms/EasyConsole) - a library to make it easier for developers to build a simple forms handling for a .NET console application. The base functionality covers handling input of various data types (string/numbers/booleans/etc.) and creating navigable, multi-level menus.
 
 As of 2020 the original EasyConsole project is basically dead and not maintained any more. A fork was necessary to add new features and improve the library with modern-era .NET.
 
@@ -18,7 +18,7 @@ Console.Output.WriteLine(ConsoleColor.Green, "You entered: '{0}'", value);
 
 ![Menu Demo](Docs/Images/string_input1.gif)
 
-By default any input will be accepted, even empty one. You can mark input as required using `required: true` parameter. This would prevent from entering an empty value and will continue to prompt the user untill valid value is provided.
+By default any input will be accepted, even empty one. You can mark input as required using `required: true` parameter. This would prevent from entering an empty value and will continue to prompt the user until valid value is provided.
 
 ```c#
 var value2 = Console.Input.ReadString("Enter a required string", required: true);
@@ -107,7 +107,7 @@ Console.Output.WriteLine(ConsoleColor.Green, "You entered: '{0}'", value);
 
 ### Creating menus
 
-This library provide an easy way to create console menus. 
+This library provides an easy way to create console menus. 
 
 ![Menu Demo](Docs/Images/menu1.gif)
 
